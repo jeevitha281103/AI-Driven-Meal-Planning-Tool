@@ -212,103 +212,103 @@ def model_predict(img_path , model):
     x = np.expand_dims(x , axis = 0)
     food_data = {
     0: {
-        'product_name': 'burger', 'calories': 400, 'serving_size': '1 medium burger (~200g)',
-        'protein': '22g', 'carbs': '36g', 'fat': '18g', 'fiber': '2g',
-        'vitamins': 'B12, B6, Iron', 'minerals': 'Iron, Zinc, Selenium'
+        'product_name': 'burger', 'calories': 450, 'serving_size': '1 medium burger (~200g)',
+        'protein': '20g', 'carbs': '35g', 'fat': '22g', 'fiber': '2g',
+        'vitamins': 'A, B12, Iron', 'minerals': 'Calcium, Iron, Potassium'
     },
     1: {
-        'product_name': 'butter_naan', 'calories': 175, 'serving_size': '1 naan (~100g)',
-        'protein': '5g', 'carbs': '28g', 'fat': '5g', 'fiber': '1g',
+        'product_name': 'butter_naan', 'calories': 290, 'serving_size': '1 naan (~100g)',
+        'protein': '9g', 'carbs': '42g', 'fat': '12g', 'fiber': '1g',
         'vitamins': 'B1, B3', 'minerals': 'Iron, Calcium'
     },
     2: {
-        'product_name': 'chai', 'calories': 120, 'serving_size': '1 cup (~240 ml)',
-        'protein': '2g', 'carbs': '18g', 'fat': '5g', 'fiber': '0g',
-        'vitamins': 'Antioxidants, C', 'minerals': 'Manganese, Potassium'
+        'product_name': 'chai', 'calories': 93, 'serving_size': '1 cup (~240 ml)',
+        'protein': '4g', 'carbs': '11g', 'fat': '3g', 'fiber': '0g',
+        'vitamins': 'C, Antioxidants', 'minerals': 'Manganese, Potassium'
     },
     3: {
-        'product_name': 'chapati', 'calories': 75, 'serving_size': '1 chapati (~40g)',
-        'protein': '3g', 'carbs': '13g', 'fat': '1g', 'fiber': '2g',
+        'product_name': 'chapati', 'calories': 120, 'serving_size': '1 chapati (~40g)',
+        'protein': '3g', 'carbs': '18g', 'fat': '3g', 'fiber': '3g',
         'vitamins': 'B1, B3', 'minerals': 'Iron, Selenium'
     },
     4: {
-        'product_name': 'chole_bhature', 'calories': 525, 'serving_size': '1 serving (~250g, 2 bhature)',
-        'protein': '14g', 'carbs': '58g', 'fat': '26g', 'fiber': '8g',
+        'product_name': 'chole_bhature', 'calories': 427, 'serving_size': '1 serving (~250g, 2 bhature)',
+        'protein': '11g', 'carbs': '50g', 'fat': '20g', 'fiber': '12g',
         'vitamins': 'B6, Folate, K', 'minerals': 'Iron, Magnesium, Potassium'
     },
     5: {
-        'product_name': 'dal_makhani', 'calories': 325, 'serving_size': '1 bowl (~150g)',
-        'protein': '15g', 'carbs': '30g', 'fat': '16g', 'fiber': '10g',
+        'product_name': 'dal_makhani', 'calories': 240, 'serving_size': '1 bowl (~150g)',
+        'protein': '10g', 'carbs': '24g', 'fat': '12g', 'fiber': '6g',
         'vitamins': 'B1, B6, Folate', 'minerals': 'Iron, Potassium, Magnesium'
     },
     6: {
-        'product_name': 'dhokla', 'calories': 150, 'serving_size': '1 serving (~100g)',
-        'protein': '8g', 'carbs': '18g', 'fat': '5g', 'fiber': '1g',
+        'product_name': 'dhokla', 'calories': 160, 'serving_size': '1 serving (~100g)',
+        'protein': '6g', 'carbs': '26g', 'fat': '3g', 'fiber': '2g',
         'vitamins': 'B1, B2', 'minerals': 'Iron, Calcium'
     },
     7: {
-        'product_name': 'fried_rice', 'calories': 275, 'serving_size': '1 bowl (~200g)',
-        'protein': '6g', 'carbs': '38g', 'fat': '11g', 'fiber': '2g',
+        'product_name': 'fried_rice', 'calories': 340, 'serving_size': '1 bowl (~200g)',
+        'protein': '13g', 'carbs': '46g', 'fat': '13g', 'fiber': '2g',
         'vitamins': 'B1, B3', 'minerals': 'Iron, Selenium'
     },
     8: {
-        'product_name': 'idli', 'calories': 40, 'serving_size': '1 idli (~30g)',
-        'protein': '2g', 'carbs': '7g', 'fat': '0.3g', 'fiber': '0.5g',
+        'product_name': 'idli', 'calories': 39, 'serving_size': '1 idli (~30g)',
+        'protein': '2g', 'carbs': '7g', 'fat': '0.1g', 'fiber': '0.3g',
         'vitamins': 'B1, B2', 'minerals': 'Iron, Calcium'
     },
     9: {
         'product_name': 'jalebi', 'calories': 150, 'serving_size': '1 piece (~50g)',
-        'protein': '1g', 'carbs': '28g', 'fat': '4g', 'fiber': '0g',
+        'protein': '2g', 'carbs': '31g', 'fat': '2g', 'fiber': '0g',
         'vitamins': 'B1', 'minerals': 'Iron'
     },
     10: {
         'product_name': 'kaathi_rolls', 'calories': 300, 'serving_size': '1 roll (~150g)',
-        'protein': '12g', 'carbs': '32g', 'fat': '13g', 'fiber': '2g',
+        'protein': '12g', 'carbs': '40g', 'fat': '10g', 'fiber': '3g',
         'vitamins': 'B6, B12', 'minerals': 'Iron, Zinc'
     },
     11: {
-        'product_name': 'kadai_paneer', 'calories': 300, 'serving_size': '1 bowl (~150g)',
-        'protein': '18g', 'carbs': '12g', 'fat': '20g', 'fiber': '2g',
+        'product_name': 'kadai_paneer', 'calories': 250, 'serving_size': '1 bowl (~150g)',
+        'protein': '14g', 'carbs': '10g', 'fat': '18g', 'fiber': '3g',
         'vitamins': 'A, B12, K', 'minerals': 'Calcium, Phosphorus'
     },
     12: {
         'product_name': 'kulfi', 'calories': 200, 'serving_size': '1 piece (~100g)',
-        'protein': '5g', 'carbs': '26g', 'fat': '10g', 'fiber': '0g',
+        'protein': '5g', 'carbs': '25g', 'fat': '10g', 'fiber': '0g',
         'vitamins': 'A, B12, D', 'minerals': 'Calcium, Phosphorus'
     },
     13: {
-        'product_name': 'masala_dosa', 'calories': 350, 'serving_size': '1 dosa (~200g)',
-        'protein': '8g', 'carbs': '45g', 'fat': '15g', 'fiber': '3g',
+        'product_name': 'masala_dosa', 'calories': 345, 'serving_size': '1 dosa (~200g)',
+        'protein': '7g', 'carbs': '41g', 'fat': '16g', 'fiber': '3g',
         'vitamins': 'B1, B2, B3', 'minerals': 'Iron, Calcium, Potassium'
     },
     14: {
         'product_name': 'momos', 'calories': 35, 'serving_size': '1 momo (~30g)',
-        'protein': '2g', 'carbs': '5g', 'fat': '1g', 'fiber': '0.5g',
+        'protein': '1g', 'carbs': '6g', 'fat': '0.5g', 'fiber': '0.5g',
         'vitamins': 'B1, B6', 'minerals': 'Iron, Zinc'
     },
     15: {
         'product_name': 'paani_puri', 'calories': 25, 'serving_size': '1 puri (~10g)',
-        'protein': '0.5g', 'carbs': '4g', 'fat': '0.5g', 'fiber': '0.3g',
+        'protein': '0.5g', 'carbs': '4g', 'fat': '1g', 'fiber': '0.3g',
         'vitamins': 'C, B6', 'minerals': 'Iron, Potassium'
     },
     16: {
-        'product_name': 'pakode', 'calories': 70, 'serving_size': '1 piece (~20g)',
-        'protein': '2g', 'carbs': '8g', 'fat': '3.5g', 'fiber': '1g',
+        'product_name': 'pakode', 'calories': 55, 'serving_size': '1 piece (~20g)',
+        'protein': '1g', 'carbs': '6g', 'fat': '3g', 'fiber': '0.5g',
         'vitamins': 'B1, B6', 'minerals': 'Iron, Potassium'
     },
     17: {
-        'product_name': 'pav_bhaji', 'calories': 400, 'serving_size': '1 plate (~250g)',
-        'protein': '10g', 'carbs': '48g', 'fat': '18g', 'fiber': '6g',
+        'product_name': 'pav_bhaji', 'calories': 406, 'serving_size': '1 plate (~250g)',
+        'protein': '10g', 'carbs': '58g', 'fat': '14g', 'fiber': '6g',
         'vitamins': 'A, C, B6', 'minerals': 'Iron, Potassium, Magnesium'
     },
     18: {
         'product_name': 'pizza', 'calories': 270, 'serving_size': '1 slice (~100g)',
-        'protein': '11g', 'carbs': '30g', 'fat': '11g', 'fiber': '2g',
+        'protein': '11g', 'carbs': '33g', 'fat': '10g', 'fiber': '2g',
         'vitamins': 'A, B12, K', 'minerals': 'Calcium, Phosphorus, Selenium'
     },
     19: {
-        'product_name': 'samosa', 'calories': 130, 'serving_size': '1 piece (~50g)',
-        'protein': '3g', 'carbs': '15g', 'fat': '6g', 'fiber': '2g',
+        'product_name': 'samosa', 'calories': 180, 'serving_size': '1 piece (~50g)',
+        'protein': '3g', 'carbs': '18g', 'fat': '11g', 'fiber': '2g',
         'vitamins': 'B1, B6', 'minerals': 'Iron, Potassium'
     }
 }
