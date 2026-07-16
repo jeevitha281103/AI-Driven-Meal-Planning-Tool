@@ -41,19 +41,19 @@ $(document).ready(function () {
     // Build beautiful result HTML grid
     const htmlContent = `
       <div class="col-md-4 mb-3">
-        <div class="p-3 bg-black bg-opacity-5 rounded-3 border border-dark border-opacity-10 text-center h-100">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Detected Dish</p>
           <h5 class="text-dark text-capitalize mb-0">${result.product_name.replace(/_/g, ' ')}</h5>
         </div>
       </div>
       <div class="col-md-4 mb-3">
-        <div class="p-3 bg-black bg-opacity-5 rounded-3 border border-dark border-opacity-10 text-center h-100">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Serving Size</p>
           <h5 class="text-primary mb-0">${result.serving_size}</h5>
         </div>
       </div>
       <div class="col-md-4 mb-3">
-        <div class="p-3 bg-black bg-opacity-5 rounded-3 border border-dark border-opacity-10 text-center h-100">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Estimated Calories</p>
           <h5 class="text-success mb-0">${result.calories} kcal</h5>
         </div>
