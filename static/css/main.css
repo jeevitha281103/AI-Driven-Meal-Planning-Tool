@@ -283,8 +283,8 @@ body {
 }
 
 /* Daily meal layout overrides */
-.bg-black.bg-opacity-15 {
-  background-color: rgba(0, 0, 0, 0.02) !important;
+.bg-light {
+  background-color: rgba(248, 249, 250, 1) !important;
 }
 .border-light.border-opacity-5 {
   border-color: rgba(0, 0, 0, 0.05) !important;
