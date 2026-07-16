@@ -50,6 +50,12 @@ def init_db():
             ("Indian Oats Khichdi", "A wholesome, comforting one-pot meal made with oats, yellow lentils, and loaded with fresh vegetables.", "A3V-vT9cZlc"),
         ]
         cur.executemany("INSERT INTO recipe (receipename, description, videoid) VALUES (?, ?, ?)", initial_recipes)
+
+    # Seed admin user if not exists
+    cur.execute("SELECT user FROM info WHERE user = 'admin'")
+    if cur.fetchone() is None:
+        cur.execute("INSERT INTO info (user, email, password, mobile, name) VALUES (?, ?, ?, ?, ?)",
+                    ('admin', 'admin@admin.com', 'admin', '', 'Admin'))
     con.commit()
     con.close()
 
@@ -223,13 +229,15 @@ def logon():
 def login():
 	return render_template('signin.html')
 
-@app.route("/signup")
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
-    username = request.args.get('user','')
-    name = request.args.get('name','')
-    email = request.args.get('email','')
-    number = request.args.get('mobile','')
-    password = request.args.get('password','')
+    if request.method == "GET":
+        return render_template("signup.html")
+    username = request.form.get('user','')
+    name = request.form.get('name','')
+    email = request.form.get('email','')
+    number = request.form.get('mobile','')
+    password = request.form.get('password','')
     
     if not username or not password:
         return render_template("signup.html", error="Username and password are required")
@@ -250,10 +258,13 @@ def signup():
         
     return render_template("signin.html", message="Account created successfully! Please login.")
 
-@app.route("/signin", methods=["GET"])
+@app.route("/signin", methods=["GET", "POST"])
 def signin():
-    mail1 = request.args.get('user', '')
-    password1 = request.args.get('password', '')
+    if request.method == "GET":
+        return render_template("signin.html")
+
+    mail1 = request.form.get('user', '')
+    password1 = request.form.get('password', '')
 
     con = sqlite3.connect(os.path.join(BASE_DIR, 'signup.db'))
     cur = con.cursor()
@@ -264,15 +275,8 @@ def signin():
     if data is None:
         return render_template("signin.html", error="Invalid credentials")
 
-    if mail1 == "admin" and password1 == "admin":
-        session['user_email'] = "admin@admin.com"
-        return redirect("/prediction")
-
-    if mail1 == str(data[0]) and password1 == str(data[1]):
-        session['user_email'] = data[2]  # Store email in session
-        return redirect("/prediction")
-
-    return render_template("signup.html")
+    session['user_email'] = data[2]
+    return redirect("/prediction")
 
 @app.route('/prediction' , methods=["GET"])
 def prediction(): # Main Page
