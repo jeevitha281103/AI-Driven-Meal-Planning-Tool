@@ -32,19 +32,48 @@
 
           <div class="d-flex flex-column gap-3">
             {% for meal, info in day.meals.items() %}
-            <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 d-flex justify-content-between align-items-center">
-              <div>
-                <span class="text-primary small fw-bold d-block text-uppercase">{{ meal }}</span>
-                <span class="text-dark fw-medium">{{ info.Item }}</span>
+            <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <span class="text-primary small fw-bold d-block text-uppercase">{{ meal }}</span>
+                  <span class="text-dark fw-medium">{{ info.Item }}</span>
+                </div>
+                <div class="text-end">
+                  <span class="badge bg-transparent text-muted border border-dark border-opacity-10 me-1" style="font-size: 0.8rem;">
+                    <i class="fa-solid fa-weight-scale me-1 text-secondary"></i> {{ info.Weight }}
+                  </span>
+                  <span class="badge bg-success bg-opacity-75 text-white" style="font-size: 0.8rem;">
+                    <i class="fa-solid fa-fire me-1"></i> {{ info.Calories }}
+                  </span>
+                  {% if info.Ingredients %}
+                  <button class="btn btn-sm btn-outline-primary ms-2 rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#recipe-{{ day.day|replace(' ', '') }}-{{ meal|lower }}" aria-expanded="false">
+                    <i class="fa-solid fa-book-open me-1"></i> Recipe
+                  </button>
+                  {% endif %}
+                </div>
               </div>
-              <div class="text-end">
-                <span class="badge bg-transparent text-muted border border-dark border-opacity-10 me-1" style="font-size: 0.8rem;">
-                  <i class="fa-solid fa-weight-scale me-1 text-secondary"></i> {{ info.Weight }}
-                </span>
-                <span class="badge bg-success bg-opacity-75 text-white" style="font-size: 0.8rem;">
-                  <i class="fa-solid fa-fire me-1"></i> {{ info.Calories }}
-                </span>
+              {% if info.Ingredients %}
+              <div class="collapse mt-3 border-top border-dark border-opacity-10 pt-3" id="recipe-{{ day.day|replace(' ', '') }}-{{ meal|lower }}">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark small mb-2"><i class="fa-solid fa-carrot me-1 text-success"></i> Ingredients</h6>
+                    <ul class="small text-muted mb-0 ps-3" style="list-style: disc;">
+                      {% for line in info.Ingredients.split('\n') %}
+                      <li class="mb-1">{{ line }}</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <h6 class="fw-bold text-dark small mb-2"><i class="fa-solid fa-list-ol me-1 text-primary"></i> Instructions</h6>
+                    <ol class="small text-muted mb-0 ps-3">
+                      {% for line in info.Instructions.split('\n') %}
+                      <li class="mb-1">{{ line }}</li>
+                      {% endfor %}
+                    </ol>
+                  </div>
+                </div>
               </div>
+              {% endif %}
             </div>
             {% endfor %}
           </div>

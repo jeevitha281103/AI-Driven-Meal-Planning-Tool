@@ -7,6 +7,7 @@ from flask import *
 from werkzeug.utils import secure_filename
 import sqlite3
 import random
+from meal_recipes import MEAL_RECIPES
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -169,12 +170,16 @@ def build_meal_data(all_meals=False, diabetes_only=False):
 def get_random_meal(mealtime, bmi_category, df):
     filtered = df[(df['MealTime'] == mealtime) & (df['BMI_Category'] == bmi_category)]
     if filtered.empty:
-        return {"Item": "No meal found", "Weight": "-", "Calories": "-"}
+        return {"Item": "No meal found", "Weight": "-", "Calories": "-", "Ingredients": "", "Instructions": ""}
     selected = filtered.sample(1).iloc[0]
+    item_name = selected['Item']
+    recipe = MEAL_RECIPES.get(item_name, {"ingredients": "", "instructions": ""})
     return {
-        "Item": selected['Item'],
+        "Item": item_name,
         "Weight": f"{selected['Weight_g']} g",
-        "Calories": f"{selected['Calories']} kcal"
+        "Calories": f"{selected['Calories']} kcal",
+        "Ingredients": recipe.get("ingredients", ""),
+        "Instructions": recipe.get("instructions", "")
     }
 @app.route("/deit", methods=["GET", "POST"])
 def homedeit():
