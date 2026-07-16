@@ -37,19 +37,37 @@ def init_db():
             recipeid INTEGER PRIMARY KEY AUTOINCREMENT,
             receipename TEXT,
             description TEXT,
-            videoid TEXT
+            videoid TEXT,
+            ingredients TEXT,
+            instructions TEXT
         )
     ''')
+    
+    # Migrate old table: add columns if missing
+    try:
+        cur.execute("ALTER TABLE recipe ADD COLUMN ingredients TEXT")
+    except sqlite3.OperationalError:
+        pass
+    try:
+        cur.execute("ALTER TABLE recipe ADD COLUMN instructions TEXT")
+    except sqlite3.OperationalError:
+        pass
     
     # Seed initial recipes if empty
     cur.execute("SELECT COUNT(*) FROM recipe")
     if cur.fetchone()[0] == 0:
         initial_recipes = [
-            ("Healthy Masala Dosa", "A light and crispy South Indian classic made with fermented rice batter, filled with a potato mash.", "S75gIapV3Kk"),
-            ("Sprouted Moong Chaat", "High protein and nutrient-rich salad made with sprouted green gram, tossed with chopped onions, tomatoes, and spices.", "aV_j6Zndlco"),
-            ("Indian Oats Khichdi", "A wholesome, comforting one-pot meal made with oats, yellow lentils, and loaded with fresh vegetables.", "A3V-vT9cZlc"),
+            ("Healthy Masala Dosa", "A light and crispy South Indian classic made with fermented rice batter, filled with a potato mash.", "S75gIapV3Kk",
+             "1 cup rice\n1/2 cup urad dal\n1/2 tsp fenugreek seeds\n2 potatoes (boiled, mashed)\n1 onion (chopped)\n1 tsp mustard seeds\nCurry leaves, salt, oil",
+             "1. Soak rice, urad dal, and fenugreek seeds for 6 hours.\n2. Grind to a smooth batter and ferment overnight.\n3. For filling: heat oil, add mustard seeds, curry leaves, onion, turmeric, and mashed potatoes. Sauté well.\n4. Pour batter on hot griddle, spread thin, drizzle oil, cook until golden.\n5. Place filling in center, fold, and serve hot with chutney."),
+            ("Sprouted Moong Chaat", "High protein and nutrient-rich salad made with sprouted green gram, tossed with chopped onions, tomatoes, and spices.", "aV_j6Zndlco",
+             "1 cup sprouted moong beans\n1 onion (finely chopped)\n1 tomato (finely chopped)\n1 green chili (chopped)\n1 tsp chaat masala\n1/2 tsp black salt\nJuice of 1 lemon\nCoriander leaves",
+             "1. Steam sprouted moong for 5-7 minutes until tender but crunchy.\n2. Let it cool completely.\n3. Add chopped onion, tomato, green chili, and coriander.\n4. Sprinkle chaat masala, black salt, and lemon juice.\n5. Toss well and serve fresh as a healthy snack."),
+            ("Indian Oats Khichdi", "A wholesome, comforting one-pot meal made with oats, yellow lentils, and loaded with fresh vegetables.", "A3V-vT9cZlc",
+             "1 cup rolled oats\n1/2 cup yellow moong dal\n1 carrot (diced)\n1/2 cup peas\n1 tomato (chopped)\n1 tsp cumin seeds\n1/2 tsp turmeric\n1 tbsp ghee\nSalt, water",
+             "1. Dry roast oats for 2 minutes and set aside.\n2. Wash moong dal and cook with turmeric until soft.\n3. In a pressure cooker, heat ghee, add cumin seeds, tomato, veggies, and sauté.\n4. Add cooked dal, oats, salt, and 2 cups water.\n5. Pressure cook for 3 whistles.\n6. Serve hot with a dollop of ghee and pickle."),
         ]
-        cur.executemany("INSERT INTO recipe (receipename, description, videoid) VALUES (?, ?, ?)", initial_recipes)
+        cur.executemany("INSERT INTO recipe (receipename, description, videoid, ingredients, instructions) VALUES (?, ?, ?, ?, ?)", initial_recipes)
 
     # Seed admin user if not exists
     cur.execute("SELECT user FROM info WHERE user = 'admin'")
@@ -414,10 +432,12 @@ def add_recipe():
         return redirect("/")
     name = request.form["receipename"]
     description = request.form["description"]
-    videoid = request.form["videoid"]
+    videoid = request.form.get("videoid", "")
+    ingredients = request.form.get("ingredients", "")
+    instructions = request.form.get("instructions", "")
     with sqlite3.connect(os.path.join(BASE_DIR, 'signup.db')) as conn:
-        conn.execute("INSERT INTO recipe (receipename, description, videoid) VALUES (?, ?, ?)",
-                     (name, description, videoid))
+        conn.execute("INSERT INTO recipe (receipename, description, videoid, ingredients, instructions) VALUES (?, ?, ?, ?, ?)",
+                     (name, description, videoid, ingredients, instructions))
     return redirect(url_for("view_recipes"))
 
 @app.route("/edit/<int:recipeid>", methods=["POST"])
@@ -426,10 +446,12 @@ def edit_recipe(recipeid):
         return redirect("/")
     name = request.form["receipename"]
     description = request.form["description"]
-    videoid = request.form["videoid"]
+    videoid = request.form.get("videoid", "")
+    ingredients = request.form.get("ingredients", "")
+    instructions = request.form.get("instructions", "")
     with sqlite3.connect(os.path.join(BASE_DIR, 'signup.db')) as conn:
-        conn.execute("UPDATE recipe SET receipename=?, description=?, videoid=? WHERE recipeid=?",
-                     (name, description, videoid, recipeid))
+        conn.execute("UPDATE recipe SET receipename=?, description=?, videoid=?, ingredients=?, instructions=? WHERE recipeid=?",
+                     (name, description, videoid, ingredients, instructions, recipeid))
     return redirect(url_for("view_recipes"))
 
 @app.route("/delete/<int:recipeid>")

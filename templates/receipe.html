@@ -33,22 +33,31 @@
     <div class="col recipe-card">
       <div class="card h-100 shadow-sm border border-dark border-opacity-10 bg-light text-dark rounded-4 overflow-hidden" 
            data-name="{{ recipe[1]|lower }}" 
-           data-description="{{ recipe[2]|lower }}" 
-           data-videoid="{{ recipe[3]|lower }}">
-        
-        <!-- Video Iframe -->
-        <div class="position-relative" style="padding-top: 56.25%;">
-          <iframe class="position-absolute top-0 start-0 w-100 h-100" 
-                  src="https://www.youtube.com/embed/{{ recipe[3] }}" 
-                  frameborder="0" 
-                  allowfullscreen></iframe>
-        </div>
+           data-description="{{ recipe[2]|lower }}">
         
         <div class="card-body p-4">
           <h5 class="card-title text-primary fw-bold mb-2">{{ recipe[1] }}</h5>
-          <p class="card-text text-muted small" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-            {{ recipe[2] }}
-          </p>
+          <p class="card-text text-muted small mb-3">{{ recipe[2] }}</p>
+
+          {% if recipe[4] %}
+          <hr class="my-3">
+          <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-carrot me-1 text-success"></i> Ingredients</h6>
+          <ul class="small text-muted mb-3 ps-3" style="list-style: disc;">
+            {% for line in recipe[4].split('\n') %}
+            <li class="mb-1">{{ line }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          {% if recipe[5] %}
+          <hr class="my-3">
+          <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-list-ol me-1 text-primary"></i> Instructions</h6>
+          <ol class="small text-muted mb-0 ps-3">
+            {% for line in recipe[5].split('\n') %}
+            <li class="mb-1">{{ line }}</li>
+            {% endfor %}
+          </ol>
+          {% endif %}
         </div>
 
         {% if session["user_email"] == "admin@admin.com" %}
@@ -66,7 +75,7 @@
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal{{ recipe[0] }}" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
         <form method="post" action="/edit/{{ recipe[0] }}">
           <div class="modal-content rounded-4 border-0">
             <div class="modal-header p-4">
@@ -80,11 +89,15 @@
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label text-muted small ms-1">Description</label>
-                <textarea name="description" class="form-control" rows="4" placeholder="Description" required>{{ recipe[2] }}</textarea>
+                <textarea name="description" class="form-control" rows="3" placeholder="Description" required>{{ recipe[2] }}</textarea>
+              </div>
+              <div class="mb-3 text-start">
+                <label class="form-label text-muted small ms-1">Ingredients (one per line)</label>
+                <textarea name="ingredients" class="form-control" rows="5" placeholder="1 cup rice&#10;1/2 cup dal&#10;Salt to taste">{{ recipe[4] or '' }}</textarea>
               </div>
               <div class="mb-1 text-start">
-                <label class="form-label text-muted small ms-1">YouTube Video ID</label>
-                <input type="text" name="videoid" value="{{ recipe[3] }}" class="form-control" placeholder="YouTube Video ID (e.g. S75gIapV3Kk)" required>
+                <label class="form-label text-muted small ms-1">Instructions (one step per line)</label>
+                <textarea name="instructions" class="form-control" rows="5" placeholder="1. Wash and soak rice&#10;2. Cook until soft">{{ recipe[5] or '' }}</textarea>
               </div>
             </div>
             <div class="modal-footer p-3">
@@ -101,7 +114,7 @@
 
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <form method="post" action="/add">
       <div class="modal-content rounded-4 border-0">
         <div class="modal-header p-4">
@@ -115,11 +128,15 @@
           </div>
           <div class="mb-3 text-start">
             <label class="form-label text-muted small ms-1">Description</label>
-            <textarea name="description" class="form-control" rows="4" placeholder="Description" required></textarea>
+            <textarea name="description" class="form-control" rows="3" placeholder="Short description of the recipe" required></textarea>
+          </div>
+          <div class="mb-3 text-start">
+            <label class="form-label text-muted small ms-1">Ingredients (one per line)</label>
+            <textarea name="ingredients" class="form-control" rows="5" placeholder="1 cup rice&#10;1/2 cup dal&#10;Salt to taste"></textarea>
           </div>
           <div class="mb-1 text-start">
-            <label class="form-label text-muted small ms-1">YouTube Video ID</label>
-            <input type="text" name="videoid" class="form-control" placeholder="YouTube Video ID (e.g. S75gIapV3Kk)" required>
+            <label class="form-label text-muted small ms-1">Instructions (one step per line)</label>
+            <textarea name="instructions" class="form-control" rows="5" placeholder="1. Wash and soak rice&#10;2. Cook until soft"></textarea>
           </div>
         </div>
         <div class="modal-footer p-3">
@@ -140,9 +157,8 @@
     cards.forEach((card) => {
       const name = card.querySelector(".card").dataset.name;
       const desc = card.querySelector(".card").dataset.description;
-      const vid = card.querySelector(".card").dataset.videoid;
 
-      const match = name.includes(query) || desc.includes(query) || vid.includes(query);
+      const match = name.includes(query) || desc.includes(query);
       card.style.display = match ? "block" : "none";
     });
   });
