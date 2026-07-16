@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="glass-panel">
+      
+      <!-- Title & Header -->
+      <div class="text-center mb-4">
+        <h2 class="text-dark mb-2">Indian Food Calorie Classifier</h2>
+        <p class="text-muted">Upload a photo or capture a live image of your meal to calculate calorie intake</p>
+      </div>
+
+      <!-- Tab Buttons for Upload vs Live Camera -->
+      <div class="d-flex justify-content-center mb-4">
+        <div class="nav nav-pills nav-pills-custom bg-black bg-opacity-25 p-1 rounded-3" id="predictionTabs" role="tablist">
+          <button class="nav-link active me-1" id="upload-tab-btn" data-bs-toggle="pill" data-bs-target="#upload-pane" type="button" role="tab" aria-selected="true">
+            <i class="fa-solid fa-file-image me-1"></i> Upload Image
+          </button>
+          <button class="nav-link" id="camera-tab-btn" data-bs-toggle="pill" data-bs-target="#camera-pane" type="button" role="tab" aria-selected="false">
+            <i class="fa-solid fa-video me-1"></i> Live Camera
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Content Panes -->
+      <div class="tab-content" id="predictionTabContent">
+        
+        <!-- Upload Tab Pane -->
+        <div class="tab-pane fade show active" id="upload-pane" role="tabpanel">
+          <form id="upload-file" method="post" enctype="multipart/form-data">
+            <label for="imageUpload" class="upload-label">
+              <i class="fa-solid fa-cloud-arrow-up text-primary mb-3" style="font-size: 2.5rem;"></i>
+              <span class="fw-bold text-dark mb-1">Click to select an image</span>
+              <span class="text-muted small">Supports JPG, JPEG, PNG</span>
+              <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" style="display: none;">
+            </label>
+          </form>
+
+          <!-- Upload Preview -->
+          <div class="image-section text-center" style="display:none;">
+            <div class="img-preview mx-auto">
+              <div id="imagePreview"></div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg px-5 mt-2" id="btn-predict">
+              Predict Calories <i class="fa-solid fa-wand-magic-sparkles ms-2"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Camera Tab Pane -->
+        <div class="tab-pane fade" id="camera-pane" role="tabpanel">
+          <div class="text-center">
+            
+            <!-- Webcam Stream Container -->
+            <div class="webcam-container" id="webcam-container">
+              <video id="webcam" autoplay playsinline></video>
+              <div class="position-absolute top-50 start-50 translate-middle text-muted" id="camera-placeholder">
+                <i class="fa-solid fa-camera mb-2" style="font-size: 3rem;"></i>
+                <p class="small">Camera stream inactive</p>
+              </div>
+            </div>
+            
+            <!-- Hidden canvas to capture frames -->
+            <canvas id="webcam-canvas" style="display:none;"></canvas>
+
+            <!-- Camera Controls -->
+            <div class="d-flex justify-content-center gap-3 mt-3">
+              <button type="button" class="btn btn-outline-dark px-4" id="btn-toggle-camera">
+                <i class="fa-solid fa-power-off me-2 text-danger"></i> Start Camera
+              </button>
+              <button type="button" class="btn btn-primary px-4" id="btn-capture-predict" style="display: none;">
+                Capture & Predict <i class="fa-solid fa-camera ms-2"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Loading State -->
+      <div class="loader-wrapper" style="display:none;">
+        <div class="loader mb-3"></div>
+        <p class="text-muted small mb-0 animate-pulse">Analyzing ingredients and estimating calories...</p>
+      </div>
+
+      <!-- Output Result -->
+      <div class="result-box" id="result-box" style="display:none;">
+        <div class="d-flex align-items-center mb-3">
+          <i class="fa-solid fa-circle-info text-primary me-2" style="font-size: 1.25rem;"></i>
+          <h4 class="text-dark mb-0">Analysis Result</h4>
+        </div>
+        <div class="row text-start" id="result-details">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

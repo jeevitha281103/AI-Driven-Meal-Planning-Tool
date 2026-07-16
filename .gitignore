@@ -1,0 +1,21 @@
+# Environments
+venv/
+.venv/
+env/
+.env
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Database
+signup.db
+
+# User Uploads
+uploads/*
+!uploads/.gitkeep
+
+# System & OS Files
+.DS_Store
+Thumbs.db

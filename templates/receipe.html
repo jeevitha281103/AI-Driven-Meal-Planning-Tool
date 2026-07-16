@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+  
+  <!-- Page Header -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-6">
+      <h2 class="text-dark mb-2"><i class="fa-solid fa-utensils text-primary me-2"></i>Healthy Recipe Vault</h2>
+      <p class="text-muted">Explore high-protein, calorie-friendly Indian recipes</p>
+    </div>
+    <div class="col-md-6 text-md-end">
+      <div class="d-flex flex-wrap gap-2 justify-content-md-end align-items-center">
+        <!-- Search input -->
+        <div class="input-group style-search-group" style="width: 250px;">
+          <span class="input-group-text bg-transparent border-end-0 border-dark"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+          <input type="text" id="recipeSearch" class="form-control border-start-0 ps-0" placeholder="Search recipes...">
+        </div>
+        
+        <!-- Add Recipe Button (Admin only) -->
+        {% if session["user_email"] == "admin@admin.com" %}
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+          <i class="fa-solid fa-plus me-1"></i> Add Recipe
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Grid -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for recipe in recipes %}
+    <div class="col recipe-card">
+      <div class="card h-100 shadow-sm border border-dark border-opacity-10 bg-black bg-opacity-5 text-dark rounded-4 overflow-hidden" 
+           data-name="{{ recipe[1]|lower }}" 
+           data-description="{{ recipe[2]|lower }}" 
+           data-videoid="{{ recipe[3]|lower }}">
+        
+        <!-- Video Iframe -->
+        <div class="position-relative" style="padding-top: 56.25%;">
+          <iframe class="position-absolute top-0 start-0 w-100 h-100" 
+                  src="https://www.youtube.com/embed/{{ recipe[3] }}" 
+                  frameborder="0" 
+                  allowfullscreen></iframe>
+        </div>
+        
+        <div class="card-body p-4">
+          <h5 class="card-title text-primary fw-bold mb-2">{{ recipe[1] }}</h5>
+          <p class="card-text text-muted small" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            {{ recipe[2] }}
+          </p>
+        </div>
+
+        {% if session["user_email"] == "admin@admin.com" %}
+        <div class="card-footer bg-transparent border-top border-dark border-opacity-5 p-3 d-flex justify-content-between">
+          <button class="btn btn-outline-warning btn-sm px-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal{{ recipe[0] }}">
+            <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+          </button>
+          <a href="/delete/{{ recipe[0] }}" class="btn btn-outline-danger btn-sm px-3 rounded-pill" onclick="return confirm('Delete this recipe?')">
+            <i class="fa-solid fa-trash-can me-1"></i> Delete
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal{{ recipe[0] }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form method="post" action="/edit/{{ recipe[0] }}">
+          <div class="modal-content rounded-4 border-0">
+            <div class="modal-header p-4">
+              <h5 class="modal-title fw-bold">Edit Recipe</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+              <div class="mb-3 text-start">
+                <label class="form-label text-muted small ms-1">Recipe Name</label>
+                <input type="text" name="receipename" value="{{ recipe[1] }}" class="form-control" placeholder="Recipe Name" required>
+              </div>
+              <div class="mb-3 text-start">
+                <label class="form-label text-muted small ms-1">Description</label>
+                <textarea name="description" class="form-control" rows="4" placeholder="Description" required>{{ recipe[2] }}</textarea>
+              </div>
+              <div class="mb-1 text-start">
+                <label class="form-label text-muted small ms-1">YouTube Video ID</label>
+                <input type="text" name="videoid" value="{{ recipe[3] }}" class="form-control" placeholder="YouTube Video ID (e.g. S75gIapV3Kk)" required>
+              </div>
+            </div>
+            <div class="modal-footer p-3">
+              <button type="button" class="btn btn-outline-dark px-4 rounded-pill" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary px-4 rounded-pill">Save Changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form method="post" action="/add">
+      <div class="modal-content rounded-4 border-0">
+        <div class="modal-header p-4">
+          <h5 class="modal-title fw-bold">Add New Recipe</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-3 text-start">
+            <label class="form-label text-muted small ms-1">Recipe Name</label>
+            <input type="text" name="receipename" class="form-control" placeholder="Recipe Name" required>
+          </div>
+          <div class="mb-3 text-start">
+            <label class="form-label text-muted small ms-1">Description</label>
+            <textarea name="description" class="form-control" rows="4" placeholder="Description" required></textarea>
+          </div>
+          <div class="mb-1 text-start">
+            <label class="form-label text-muted small ms-1">YouTube Video ID</label>
+            <input type="text" name="videoid" class="form-control" placeholder="YouTube Video ID (e.g. S75gIapV3Kk)" required>
+          </div>
+        </div>
+        <div class="modal-footer p-3">
+          <button type="button" class="btn btn-outline-dark px-4 rounded-pill" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary px-4 rounded-pill">Add Recipe</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Simple JS Search Filter
+  document.getElementById("recipeSearch").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    const cards = document.querySelectorAll(".recipe-card");
+
+    cards.forEach((card) => {
+      const name = card.querySelector(".card").dataset.name;
+      const desc = card.querySelector(".card").dataset.description;
+      const vid = card.querySelector(".card").dataset.videoid;
+
+      const match = name.includes(query) || desc.includes(query) || vid.includes(query);
+      card.style.display = match ? "block" : "none";
+    });
+  });
+</script>
+{% endblock %}

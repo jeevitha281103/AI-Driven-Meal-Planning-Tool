@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block content %}
+<style>
+  .bmi-card {
+    background: #f8f9fa;
+    border-left: 5px solid #0d6efd;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .day-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+    margin-bottom: 20px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .day-card:hover {
+    transform: scale(1.01);
+  }
+
+  .meal-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .meal-item:last-child {
+    border-bottom: none;
+  }
+
+  .meal-title {
+    font-weight: 600;
+    color: #0d6efd;
+  }
+
+  .meal-info {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .back-btn {
+    margin-top: 30px;
+  }
+</style>
+
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">Your Personalized Meal Plan</h1>
+    <div class="bmi-card d-inline-block mt-3">
+      <h4 class="mb-1">
+        Your BMI: <span class="text-primary">{{ bmi }}</span>
+      </h4>
+      <p class="mb-0 text-muted">Category: <strong>{{ category }}</strong></p>
+    </div>
+  </div>
+
+  {% for day in plan %}
+  <div class="day-card">
+    <h4 class="mb-4 text-center text-secondary">{{ day.day }}</h4>
+    {% for meal, info in day.meals.items() %}
+    <div class="meal-item d-flex justify-content-between align-items-start">
+      <div>
+        <div class="meal-title">{{ meal }}:</div>
+        <div class="meal-info">{{ info.Item }}</div>
+      </div>
+      <div class="text-end">
+        <span class="badge bg-light text-dark border me-2"
+          >{{ info.Weight }}</span
+        >
+        <span class="badge bg-success">{{ info.Calories }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="text-center back-btn">
+    <a href="/deit" class="btn btn-lg btn-outline-primary">← Back to Planner</a>
+  </div>
+</div>
+{% endblock %}

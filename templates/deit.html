@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-8 col-lg-6">
+    <div class="glass-panel">
+      
+      <!-- Title & Header -->
+      <div class="text-center mb-4">
+        <i class="fa-solid fa-calendar-day text-primary mb-3" style="font-size: 3.5rem;"></i>
+        <h2 class="text-dark mb-2">Personalized Diet Planner</h2>
+        <p class="text-muted">Enter your physical parameters to generate a customized 7-day meal plan</p>
+      </div>
+
+      <form method="POST">
+        <div class="mb-3 text-start">
+          <label for="plan_type" class="form-label text-muted small ms-1">Select Diet Plan Target</label>
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0 border-light"><i class="fa-solid fa-seedling text-muted"></i></span>
+            <select class="form-select border-start-0 ps-0" id="plan_type" name="plan_type" required>
+              <option value="" disabled selected>Choose plan type...</option>
+              <option value="normal">Normal Health / General Diet</option>
+              <option value="diabetes">Diabetic Care / Low Glycemic Index</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3 text-start">
+            <label for="weight" class="form-label text-muted small ms-1">Weight (kg)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 border-light"><i class="fa-solid fa-weight-scale text-muted"></i></span>
+              <input type="number" step="0.1" class="form-control border-start-0 ps-0" id="weight" name="weight" placeholder="e.g., 70" required>
+            </div>
+          </div>
+          <div class="col-md-6 mb-4 text-start">
+            <label for="height" class="form-label text-muted small ms-1">Height (cm)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 border-light"><i class="fa-solid fa-ruler-vertical text-muted"></i></span>
+              <input type="number" step="0.1" class="form-control border-start-0 ps-0" id="height" name="height" placeholder="e.g., 175" required>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-3">
+          GENERATE MEAL PLAN <i class="fa-solid fa-wand-magic-sparkles ms-2"></i>
+        </button>
+      </form>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

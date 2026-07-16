@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+  <div class="col-lg-10">
+    
+    <!-- BMI Header Card -->
+    <div class="glass-panel text-center mb-5">
+      <h1 class="display-6 text-dark mb-3">Your Personalized 7-Day Meal Plan</h1>
+      
+      <div class="d-inline-flex flex-wrap justify-content-center gap-3 p-3 bg-black bg-opacity-5 rounded-4 border border-dark border-opacity-10">
+        <div class="px-4 py-2 text-center border-end border-dark border-opacity-10">
+          <span class="text-muted small d-block mb-1">Calculated BMI</span>
+          <span class="fs-4 fw-bold text-primary">{{ bmi }}</span>
+        </div>
+        <div class="px-4 py-2 text-center">
+          <span class="text-muted small d-block mb-1">Health Category</span>
+          <span class="fs-4 fw-bold text-success">{{ category }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diet Calendar Grid -->
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for day in plan %}
+      <div class="col">
+        <div class="glass-panel h-100 p-4">
+          <div class="d-flex align-items-center justify-content-between border-bottom border-dark border-opacity-10 pb-3 mb-3">
+            <h4 class="text-dark mb-0"><i class="fa-solid fa-calendar-check text-primary me-2"></i>{{ day.day }}</h4>
+            <span class="badge bg-black bg-opacity-5 text-muted border border-dark border-opacity-10 px-3 py-2 rounded-pill small">Daily Plan</span>
+          </div>
+
+          <div class="d-flex flex-column gap-3">
+            {% for meal, info in day.meals.items() %}
+            <div class="p-3 bg-black bg-opacity-5 rounded-3 border border-dark border-opacity-10 d-flex justify-content-between align-items-center">
+              <div>
+                <span class="text-primary small fw-bold d-block text-uppercase">{{ meal }}</span>
+                <span class="text-dark fw-medium">{{ info.Item }}</span>
+              </div>
+              <div class="text-end">
+                <span class="badge bg-transparent text-muted border border-dark border-opacity-10 me-1" style="font-size: 0.8rem;">
+                  <i class="fa-solid fa-weight-scale me-1 text-secondary"></i> {{ info.Weight }}
+                </span>
+                <span class="badge bg-success bg-opacity-75 text-white" style="font-size: 0.8rem;">
+                  <i class="fa-solid fa-fire me-1"></i> {{ info.Calories }}
+                </span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Back Navigation -->
+    <div class="text-center mt-5">
+      <a href="/deit" class="btn btn-outline-dark btn-lg px-4 rounded-pill">
+        <i class="fa-solid fa-chevron-left me-2"></i> Plan Another Diet
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
