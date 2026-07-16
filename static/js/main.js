@@ -40,22 +40,66 @@ $(document).ready(function () {
     
     // Build beautiful result HTML grid
     const htmlContent = `
-      <div class="col-md-4 mb-3">
+      <div class="col-12 mb-3">
         <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Detected Dish</p>
           <h5 class="text-dark text-capitalize mb-0">${result.product_name.replace(/_/g, ' ')}</h5>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-md-6 mb-3">
         <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Serving Size</p>
           <h5 class="text-primary mb-0">${result.serving_size}</h5>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-md-6 mb-3">
         <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Estimated Calories</p>
           <h5 class="text-success mb-0">${result.calories} kcal</h5>
+        </div>
+      </div>
+      <div class="col-12 mt-3 mb-2">
+        <h6 class="text-dark fw-bold"><i class="fa-solid fa-chart-pie me-2 text-primary"></i>Nutritional Breakdown</h6>
+        <hr class="my-2">
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
+          <p class="text-muted small mb-1">Protein</p>
+          <h5 class="text-primary mb-0">${result.protein}</h5>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
+          <p class="text-muted small mb-1">Carbs</p>
+          <h5 class="text-warning mb-0">${result.carbs}</h5>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
+          <p class="text-muted small mb-1">Fat</p>
+          <h5 class="text-danger mb-0">${result.fat}</h5>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
+          <p class="text-muted small mb-1">Fiber</p>
+          <h5 class="text-info mb-0">${result.fiber}</h5>
+        </div>
+      </div>
+      <div class="col-12 mt-3 mb-2">
+        <h6 class="text-dark fw-bold"><i class="fa-solid fa-capsules me-2 text-primary"></i>Vitamins & Minerals</h6>
+        <hr class="my-2">
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 h-100">
+          <p class="text-muted small mb-1"><i class="fa-solid fa-leaf me-1"></i> Vitamins</p>
+          <h6 class="text-success mb-0">${result.vitamins}</h6>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 h-100">
+          <p class="text-muted small mb-1"><i class="fa-solid fa-gem me-1"></i> Minerals</p>
+          <h6 class="text-secondary mb-0">${result.minerals}</h6>
         </div>
       </div>
     `;
