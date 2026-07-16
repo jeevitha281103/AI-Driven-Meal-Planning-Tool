@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-lg-8">
-    <div class="glass-panel">
+<div class="row g-4">
+  <!-- Left Column: Image Upload / Camera -->
+  <div class="col-lg-6">
+    <div class="glass-panel h-100">
       
       <!-- Title & Header -->
       <div class="text-center mb-4">
         <h2 class="text-dark mb-2">Indian Food Calorie Classifier</h2>
-        <p class="text-muted">Upload a photo or capture a live image of your meal to calculate calorie intake</p>
+        <p class="text-muted">Upload a photo or capture a live image of your meal</p>
       </div>
 
       <!-- Tab Buttons for Upload vs Live Camera -->
@@ -78,24 +79,31 @@
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Analysis Result -->
+  <div class="col-lg-6">
+    <div class="glass-panel h-100 result-panel" id="result-panel">
+      <div class="d-flex align-items-center mb-3">
+        <i class="fa-solid fa-circle-info text-primary me-2" style="font-size: 1.25rem;"></i>
+        <h4 class="text-dark mb-0">Analysis Result</h4>
+      </div>
 
       <!-- Loading State -->
-      <div class="loader-wrapper" style="display:none;">
+      <div class="loader-wrapper" id="loader-wrapper" style="display:none;">
         <div class="loader mb-3"></div>
         <p class="text-muted small mb-0 animate-pulse">Analyzing ingredients and estimating calories...</p>
       </div>
 
-      <!-- Output Result -->
-      <div class="result-box" id="result-box" style="display:none;">
-        <div class="d-flex align-items-center mb-3">
-          <i class="fa-solid fa-circle-info text-primary me-2" style="font-size: 1.25rem;"></i>
-          <h4 class="text-dark mb-0">Analysis Result</h4>
+      <!-- Result Details -->
+      <div id="result-content">
+        <div id="result-placeholder" class="text-center py-5">
+          <i class="fa-solid fa-image text-muted mb-3" style="font-size: 4rem; opacity: 0.3;"></i>
+          <p class="text-muted">Upload or capture a meal image to see the full nutritional analysis here</p>
         </div>
-        <div class="row text-start g-3" id="result-details">
-          <!-- Populated by JS -->
-        </div>
+        <div id="result-details" class="row text-start g-3" style="display:none;"></div>
       </div>
-
     </div>
   </div>
 </div>

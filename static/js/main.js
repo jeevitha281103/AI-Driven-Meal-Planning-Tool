@@ -3,8 +3,8 @@ $(document).ready(function () {
   const uploadSection = $(".image-section");
   const uploadFileForm = $("#upload-file");
   const btnPredict = $("#btn-predict");
-  const loaderWrapper = $(".loader-wrapper");
-  const resultBox = $("#result-box");
+  const loaderWrapper = $("#loader-wrapper");
+  const resultPlaceholder = $("#result-placeholder");
   const resultDetails = $("#result-details");
   
   // Camera variables
@@ -17,8 +17,6 @@ $(document).ready(function () {
 
   // Initialize view
   uploadSection.hide();
-  loaderWrapper.hide();
-  resultBox.hide();
 
   // Helper to show prediction results
   function displayResult(data) {
@@ -37,6 +35,7 @@ $(document).ready(function () {
     }
 
     loaderWrapper.hide();
+    resultPlaceholder.hide();
     
     // Build beautiful result HTML grid
     const htmlContent = `
@@ -104,8 +103,7 @@ $(document).ready(function () {
       </div>
     `;
 
-    resultDetails.html(htmlContent);
-    resultBox.fadeIn(400);
+    resultDetails.html(htmlContent).fadeIn(400);
   }
 
   // --- Upload Flow ---
@@ -123,7 +121,8 @@ $(document).ready(function () {
   $("#imageUpload").change(function () {
     uploadSection.show();
     btnPredict.show();
-    resultBox.hide();
+    resultDetails.hide();
+    resultPlaceholder.show();
     readURL(this);
   });
 
@@ -131,7 +130,8 @@ $(document).ready(function () {
   btnPredict.click(function () {
     var form_data = new FormData(uploadFileForm[0]);
     btnPredict.hide();
-    resultBox.hide();
+    resultDetails.hide();
+    resultPlaceholder.hide();
     loaderWrapper.show();
 
     $.ajax({
@@ -147,6 +147,7 @@ $(document).ready(function () {
       error: function (xhr) {
         loaderWrapper.hide();
         btnPredict.show();
+        resultPlaceholder.show();
         let errMsg = "An error occurred during prediction.";
         if (xhr.responseJSON && xhr.responseJSON.error) {
           errMsg = xhr.responseJSON.error;
@@ -226,7 +227,8 @@ $(document).ready(function () {
       formData.append("file", blob, "camera_capture.jpg");
 
       // Hide results & show loading
-      resultBox.hide();
+      resultDetails.hide();
+      resultPlaceholder.hide();
       loaderWrapper.show();
 
       $.ajax({
@@ -241,6 +243,7 @@ $(document).ready(function () {
         },
         error: function (xhr) {
           loaderWrapper.hide();
+          resultPlaceholder.show();
           let errMsg = "An error occurred during prediction.";
           if (xhr.responseJSON && xhr.responseJSON.error) {
             errMsg = xhr.responseJSON.error;
@@ -257,6 +260,7 @@ $(document).ready(function () {
       stopCamera();
     }
     // Clean up results when switching views
-    resultBox.hide();
+    resultDetails.hide();
+    resultPlaceholder.show();
   });
 });

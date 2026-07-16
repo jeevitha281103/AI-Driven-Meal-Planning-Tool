@@ -247,6 +247,22 @@ body {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
+/* Right panel result container (always visible) */
+.result-panel {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* Custom Tabs styling */
 .nav-pills-custom .nav-link {
   color: var(--text-muted);
