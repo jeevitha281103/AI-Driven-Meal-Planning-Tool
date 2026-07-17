@@ -6,15 +6,16 @@
   <!-- Page Header -->
   <div class="row align-items-center mb-4">
     <div class="col-md-6">
-      <h2 class="text-dark mb-2"><i class="fa-solid fa-utensils text-primary me-2"></i>Healthy Recipe Vault</h2>
-      <p class="text-muted">Explore high-protein, calorie-friendly Indian recipes</p>
+      <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="NutriFit" height="45" class="me-3" style="vertical-align: middle;">
+      <h2 class="text-dark mb-2" style="display: inline-block; vertical-align: middle;"><i class="fa-solid fa-utensils text-primary me-2"></i>Healthy Recipe Vault</h2>
+      <p class="text-muted">Explore famous dietary recipes for regular & diabetes-friendly meals</p>
     </div>
     <div class="col-md-6 text-md-end">
       <div class="d-flex flex-wrap gap-2 justify-content-md-end align-items-center">
         <!-- Search input -->
         <div class="input-group style-search-group" style="width: 250px;">
           <span class="input-group-text bg-transparent border-end-0 border-dark"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
-          <input type="text" id="recipeSearch" class="form-control border-start-0 ps-0" placeholder="Search recipes...">
+          <input type="text" id="recipeSearch" class="form-control border-start-0 ps-0" placeholder="Search recipes..." value="{{ request.args.get('q', '') }}">
         </div>
         
         <!-- Add Recipe Button (Admin only) -->
@@ -27,6 +28,21 @@
     </div>
   </div>
 
+  <!-- Diet Type Filter Tabs -->
+  <div class="d-flex justify-content-center mb-4">
+    <div class="nav nav-pills nav-pills-custom bg-light p-1 rounded-3" role="tablist">
+      <a href="/viewrecipes?diet=all{% if request.args.get('q') %}&q={{ request.args.get('q') }}{% endif %}" class="nav-link {% if current_diet == 'all' or not current_diet %}active{% endif %} me-1 rounded-pill">
+        <i class="fa-solid fa-utensils me-1"></i> All Recipes
+      </a>
+      <a href="/viewrecipes?diet=regular{% if request.args.get('q') %}&q={{ request.args.get('q') }}{% endif %}" class="nav-link {% if current_diet == 'regular' %}active{% endif %} me-1 rounded-pill">
+        <i class="fa-solid fa-heart me-1 text-success"></i> Regular Diet
+      </a>
+      <a href="/viewrecipes?diet=diabetes{% if request.args.get('q') %}&q={{ request.args.get('q') }}{% endif %}" class="nav-link {% if current_diet == 'diabetes' %}active{% endif %} rounded-pill">
+        <i class="fa-solid fa-leaf me-1 text-primary"></i> Diabetes-Friendly
+      </a>
+    </div>
+  </div>
+
   <!-- Card Grid -->
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     {% for recipe in recipes %}
@@ -36,7 +52,18 @@
            data-description="{{ recipe[2]|lower }}">
         
         <div class="card-body p-4">
-          <h5 class="card-title text-primary fw-bold mb-2">{{ recipe[1] }}</h5>
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="card-title text-primary fw-bold mb-0">{{ recipe[1] }}</h5>
+            {% if recipe[6] %}
+              {% if recipe[6] == 'diabetes' %}
+              <span class="badge bg-primary text-white ms-2 rounded-pill"><i class="fa-solid fa-leaf me-1"></i>Diabetes</span>
+              {% elif recipe[6] == 'regular' %}
+              <span class="badge bg-success text-white ms-2 rounded-pill"><i class="fa-solid fa-heart me-1"></i>Regular</span>
+              {% else %}
+              <span class="badge bg-secondary text-white ms-2 rounded-pill"><i class="fa-solid fa-check me-1"></i>Both</span>
+              {% endif %}
+            {% endif %}
+          </div>
           <p class="card-text text-muted small mb-3">{{ recipe[2] }}</p>
 
           {% if recipe[4] %}
@@ -92,6 +119,14 @@
                 <textarea name="description" class="form-control" rows="3" placeholder="Description" required>{{ recipe[2] }}</textarea>
               </div>
               <div class="mb-3 text-start">
+                <label class="form-label text-muted small ms-1">Diet Type</label>
+                <select name="diet_type" class="form-select">
+                  <option value="both" {% if recipe[6] == 'both' %}selected{% endif %}>Both (All)</option>
+                  <option value="regular" {% if recipe[6] == 'regular' %}selected{% endif %}>Regular Diet</option>
+                  <option value="diabetes" {% if recipe[6] == 'diabetes' %}selected{% endif %}>Diabetes-Friendly</option>
+                </select>
+              </div>
+              <div class="mb-3 text-start">
                 <label class="form-label text-muted small ms-1">Ingredients (one per line)</label>
                 <textarea name="ingredients" class="form-control" rows="5" placeholder="1 cup rice&#10;1/2 cup dal&#10;Salt to taste">{{ recipe[4] or '' }}</textarea>
               </div>
@@ -110,6 +145,13 @@
     </div>
     {% endfor %}
   </div>
+
+  {% if recipes|length == 0 %}
+  <div class="text-center py-5">
+    <i class="fa-solid fa-book-open text-muted mb-3" style="font-size: 3rem; opacity: 0.3;"></i>
+    <p class="text-muted">No recipes found. Try a different search or diet filter.</p>
+  </div>
+  {% endif %}
 </div>
 
 <!-- Add Modal -->
@@ -131,6 +173,14 @@
             <textarea name="description" class="form-control" rows="3" placeholder="Short description of the recipe" required></textarea>
           </div>
           <div class="mb-3 text-start">
+            <label class="form-label text-muted small ms-1">Diet Type</label>
+            <select name="diet_type" class="form-select">
+              <option value="both">Both (All)</option>
+              <option value="regular">Regular Diet</option>
+              <option value="diabetes">Diabetes-Friendly</option>
+            </select>
+          </div>
+          <div class="mb-3 text-start">
             <label class="form-label text-muted small ms-1">Ingredients (one per line)</label>
             <textarea name="ingredients" class="form-control" rows="5" placeholder="1 cup rice&#10;1/2 cup dal&#10;Salt to taste"></textarea>
           </div>
@@ -149,18 +199,20 @@
 </div>
 
 <script>
-  // Simple JS Search Filter
+  // Search with URL navigation for backend filtering
+  let searchTimeout;
   document.getElementById("recipeSearch").addEventListener("input", function () {
-    const query = this.value.toLowerCase();
-    const cards = document.querySelectorAll(".recipe-card");
-
-    cards.forEach((card) => {
-      const name = card.querySelector(".card").dataset.name;
-      const desc = card.querySelector(".card").dataset.description;
-
-      const match = name.includes(query) || desc.includes(query);
-      card.style.display = match ? "block" : "none";
-    });
+    clearTimeout(searchTimeout);
+    const query = this.value;
+    const url = new URL(window.location.href);
+    if (query) {
+      url.searchParams.set('q', query);
+    } else {
+      url.searchParams.delete('q');
+    }
+    searchTimeout = setTimeout(() => {
+      window.location.href = url.toString();
+    }, 600);
   });
 </script>
 {% endblock %}

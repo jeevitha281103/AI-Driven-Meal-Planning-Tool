@@ -6,6 +6,7 @@ $(document).ready(function () {
   const loaderWrapper = $("#loader-wrapper");
   const resultPlaceholder = $("#result-placeholder");
   const resultDetails = $("#result-details");
+  const resultWarning = $("#result-warning");
   
   // Camera variables
   const videoElement = document.getElementById("webcam");
@@ -36,13 +37,32 @@ $(document).ready(function () {
 
     loaderWrapper.hide();
     resultPlaceholder.hide();
-    
+    resultWarning.show();
+
+    // Build confidence badge color
+    let confColor = "text-success";
+    if (result.confidence < 50) confColor = "text-danger";
+    else if (result.confidence < 70) confColor = "text-warning";
+
+    // Build alternatives HTML
+    let altHtml = "";
+    if (result.alternatives && result.alternatives.length > 0) {
+      altHtml = '<div class="col-12 mt-2"><hr class="my-2"><p class="text-muted small mb-2"><i class="fa-solid fa-question-circle me-1"></i> Could also be:</p>';
+      result.alternatives.forEach(function(alt) {
+        altHtml += '<span class="badge bg-light text-muted border border-dark border-opacity-10 me-1 mb-1 px-2 py-1">' + alt.name + ' (' + alt.confidence + '%)</span>';
+      });
+      altHtml += '</div>';
+    }
+
     // Build beautiful result HTML grid
     const htmlContent = `
       <div class="col-12 mb-3">
         <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Detected Dish</p>
           <h5 class="text-dark text-capitalize mb-0">${result.product_name.replace(/_/g, ' ')}</h5>
+          <span class="badge bg-transparent border border-dark border-opacity-10 mt-2 px-3 py-1 rounded-pill ${confColor}">
+            <i class="fa-solid fa-signal me-1"></i> ${result.confidence}% confidence
+          </span>
         </div>
       </div>
       <div class="col-md-6 mb-3">
@@ -82,7 +102,7 @@ $(document).ready(function () {
       <div class="col-md-3 mb-3">
         <div class="p-3 bg-light rounded-3 border border-dark border-opacity-10 text-center h-100">
           <p class="text-muted small mb-1">Fiber</p>
-          <h5 class="text-info mb-0">${result.fiber}</h5>
+          <h5 class="text-primary mb-0">${result.fiber}</h5>
         </div>
       </div>
       <div class="col-12 mt-3 mb-2">
@@ -101,6 +121,7 @@ $(document).ready(function () {
           <h6 class="text-secondary mb-0">${result.minerals}</h6>
         </div>
       </div>
+      ${altHtml}
     `;
 
     resultDetails.html(htmlContent).fadeIn(400);
@@ -123,6 +144,7 @@ $(document).ready(function () {
     btnPredict.show();
     resultDetails.hide();
     resultPlaceholder.show();
+    resultWarning.hide();
     readURL(this);
   });
 
@@ -262,5 +284,6 @@ $(document).ready(function () {
     // Clean up results when switching views
     resultDetails.hide();
     resultPlaceholder.show();
+    resultWarning.hide();
   });
 });

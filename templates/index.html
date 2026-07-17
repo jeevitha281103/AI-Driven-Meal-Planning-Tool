@@ -8,6 +8,7 @@
       
       <!-- Title & Header -->
       <div class="text-center mb-4">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="NutriFit" height="55" class="mb-2">
         <h2 class="text-dark mb-2">Indian Food Calorie Classifier</h2>
         <p class="text-muted">Upload a photo or capture a live image of your meal</p>
       </div>
@@ -103,6 +104,14 @@
           <p class="text-muted">Upload or capture a meal image to see the full nutritional analysis here</p>
         </div>
         <div id="result-details" class="row text-start g-3" style="display:none;"></div>
+        <div id="result-warning" class="text-center mt-3" style="display:none;">
+          <div class="p-2 bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-3">
+            <p class="small text-warning-emphasis mb-0">
+              <i class="fa-solid fa-triangle-exclamation me-1"></i>
+              Use a clear image with a single food item for best results — the model may misidentify mixed or unclear images.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

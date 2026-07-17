@@ -40,19 +40,17 @@ def init_db():
             description TEXT,
             videoid TEXT,
             ingredients TEXT,
-            instructions TEXT
+            instructions TEXT,
+            diet_type TEXT
         )
     ''')
     
     # Migrate old table: add columns if missing
-    try:
-        cur.execute("ALTER TABLE recipe ADD COLUMN ingredients TEXT")
-    except sqlite3.OperationalError:
-        pass
-    try:
-        cur.execute("ALTER TABLE recipe ADD COLUMN instructions TEXT")
-    except sqlite3.OperationalError:
-        pass
+    for col in ['ingredients', 'instructions', 'diet_type']:
+        try:
+            cur.execute(f"ALTER TABLE recipe ADD COLUMN {col} TEXT")
+        except sqlite3.OperationalError:
+            pass
     
     # Seed initial recipes if empty
     cur.execute("SELECT COUNT(*) FROM recipe")
@@ -60,21 +58,116 @@ def init_db():
         initial_recipes = [
             ("Healthy Masala Dosa", "A light and crispy South Indian classic made with fermented rice batter, filled with a potato mash.", "S75gIapV3Kk",
              "1 cup rice\n1/2 cup urad dal\n1/2 tsp fenugreek seeds\n2 potatoes (boiled, mashed)\n1 onion (chopped)\n1 tsp mustard seeds\nCurry leaves, salt, oil",
-             "1. Soak rice, urad dal, and fenugreek seeds for 6 hours.\n2. Grind to a smooth batter and ferment overnight.\n3. For filling: heat oil, add mustard seeds, curry leaves, onion, turmeric, and mashed potatoes. Sauté well.\n4. Pour batter on hot griddle, spread thin, drizzle oil, cook until golden.\n5. Place filling in center, fold, and serve hot with chutney."),
+             "1. Soak rice, urad dal, and fenugreek seeds for 6 hours.\n2. Grind to a smooth batter and ferment overnight.\n3. For filling: heat oil, add mustard seeds, curry leaves, onion, turmeric, and mashed potatoes. Sauté well.\n4. Pour batter on hot griddle, spread thin, drizzle oil, cook until golden.\n5. Place filling in center, fold, and serve hot with chutney.", "both"),
             ("Sprouted Moong Chaat", "High protein and nutrient-rich salad made with sprouted green gram, tossed with chopped onions, tomatoes, and spices.", "aV_j6Zndlco",
              "1 cup sprouted moong beans\n1 onion (finely chopped)\n1 tomato (finely chopped)\n1 green chili (chopped)\n1 tsp chaat masala\n1/2 tsp black salt\nJuice of 1 lemon\nCoriander leaves",
-             "1. Steam sprouted moong for 5-7 minutes until tender but crunchy.\n2. Let it cool completely.\n3. Add chopped onion, tomato, green chili, and coriander.\n4. Sprinkle chaat masala, black salt, and lemon juice.\n5. Toss well and serve fresh as a healthy snack."),
+             "1. Steam sprouted moong for 5-7 minutes until tender but crunchy.\n2. Let it cool completely.\n3. Add chopped onion, tomato, green chili, and coriander.\n4. Sprinkle chaat masala, black salt, and lemon juice.\n5. Toss well and serve fresh as a healthy snack.", "both"),
             ("Indian Oats Khichdi", "A wholesome, comforting one-pot meal made with oats, yellow lentils, and loaded with fresh vegetables.", "A3V-vT9cZlc",
              "1 cup rolled oats\n1/2 cup yellow moong dal\n1 carrot (diced)\n1/2 cup peas\n1 tomato (chopped)\n1 tsp cumin seeds\n1/2 tsp turmeric\n1 tbsp ghee\nSalt, water",
-             "1. Dry roast oats for 2 minutes and set aside.\n2. Wash moong dal and cook with turmeric until soft.\n3. In a pressure cooker, heat ghee, add cumin seeds, tomato, veggies, and sauté.\n4. Add cooked dal, oats, salt, and 2 cups water.\n5. Pressure cook for 3 whistles.\n6. Serve hot with a dollop of ghee and pickle."),
+             "1. Dry roast oats for 2 minutes and set aside.\n2. Wash moong dal and cook with turmeric until soft.\n3. In a pressure cooker, heat ghee, add cumin seeds, tomato, veggies, and sauté.\n4. Add cooked dal, oats, salt, and 2 cups water.\n5. Pressure cook for 3 whistles.\n6. Serve hot with a dollop of ghee and pickle.", "diabetes"),
         ]
-        cur.executemany("INSERT INTO recipe (receipename, description, videoid, ingredients, instructions) VALUES (?, ?, ?, ?, ?)", initial_recipes)
+        cur.executemany("INSERT INTO recipe (receipename, description, videoid, ingredients, instructions, diet_type) VALUES (?, ?, ?, ?, ?, ?)", initial_recipes)
 
     # Seed admin user if not exists
     cur.execute("SELECT user FROM info WHERE user = 'admin'")
     if cur.fetchone() is None:
         cur.execute("INSERT INTO info (user, email, password, mobile, name) VALUES (?, ?, ?, ?, ?)",
                     ('admin', 'admin@admin.com', 'admin', '', 'Admin'))
+    con.commit()
+    con.close()
+
+    # Seed famous dietary recipes from database if not present
+    seed_famous_recipes()
+
+def seed_famous_recipes():
+    con = sqlite3.connect(os.path.join(BASE_DIR, 'signup.db'))
+    cur = con.cursor()
+    cur.execute("SELECT COUNT(*) FROM recipe")
+    if cur.fetchone()[0] > 3:
+        con.close()
+        return
+    famous_recipes = [
+        # ---- REGULAR DIET RECIPES ----
+        ("Whole Wheat Gehun Khichdi", "A fiber-rich Rajasthani khichdi made with whole wheat and moong dal, perfect for wholesome meals.",
+         "", "1 cup whole wheat (soaked overnight)\n1/4 cup yellow moong dal\n1 tsp ghee\n1 tsp oil\n1/4 tsp cumin seeds\n2 green chilies (slit)\n1/4 tsp asafoetida\n1/4 tsp turmeric\nSalt to taste",
+         "1. Soak whole wheat overnight, drain and grind to coarse paste.\n2. Soak moong dal for 2 hours, drain.\n3. Heat ghee and oil, add cumin, green chilies, asafoetida.\n4. Add ground wheat and moong dal, sauté for 2 mins.\n5. Add 3.5 cups hot water, turmeric, salt.\n6. Pressure cook for 6 whistles.\n7. Serve hot with low-fat curd.", "regular"),
+
+        ("Besan Chilla (Gram Flour Pancake)", "A protein-packed savory pancake made with gram flour, onions, and spices — a popular North Indian breakfast.",
+         "", "1 cup besan (gram flour)\n1/2 cup finely chopped onion\n1/4 cup chopped coriander\n1 green chili (chopped)\n1/2 tsp cumin seeds\n1/4 tsp turmeric\nSalt to taste\nOil for cooking",
+         "1. Mix besan with water to make a smooth batter (no lumps).\n2. Add onion, coriander, green chili, cumin, turmeric, salt. Mix well.\n3. Heat non-stick pan, pour a ladle of batter, spread.\n4. Drizzle oil, cook until golden on both sides.\n5. Serve hot with mint chutney or ketchup.", "regular"),
+
+        ("Quinoa Dosa", "A high-protein, no-fermentation twist to classic dosa using quinoa instead of rice.",
+         "", "1 cup quinoa (soaked 4 hours)\n1/2 cup urad dal (soaked 4 hours)\n1/4 cup grated carrot\n1 green chili\nSalt to taste\nOil for cooking",
+         "1. Grind soaked quinoa and urad dal with green chili to smooth batter.\n2. Add grated carrot and salt. Mix.\n3. Heat tawa, pour ladle of batter, spread thin.\n4. Drizzle oil, cook until crisp.\n5. Serve with coconut chutney.", "regular"),
+
+        ("Egg Bhurji (Indian Scrambled Eggs)", "Classic Indian-style scrambled eggs with onions, tomatoes, and aromatic spices.",
+         "", "2 eggs\n1 onion (finely chopped)\n1 tomato (finely chopped)\n1 green chili (chopped)\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1 tbsp butter\nSalt and pepper to taste\nCoriander leaves",
+         "1. Whisk eggs with salt and pepper.\n2. Heat butter, add cumin seeds, then onions and green chili. Sauté until golden.\n3. Add tomatoes and turmeric. Cook until soft.\n4. Pour whisked eggs, stir gently until set.\n5. Garnish with coriander and serve with toast.", "regular"),
+
+        ("Chickpea Salad", "A protein-rich, refreshing salad with chickpeas, fresh veggies, and tangy lemon dressing.",
+         "", "1 cup boiled chickpeas\n1/2 cucumber (diced)\n1 tomato (diced)\n1/4 onion (finely chopped)\n2 tbsp olive oil\n1 tbsp lemon juice\n1/2 tsp chaat masala\nSalt and pepper to taste",
+         "1. Mix chickpeas, cucumber, tomato, and onion in a bowl.\n2. Whisk olive oil, lemon juice, chaat masala, salt, and pepper.\n3. Pour dressing over salad, toss well.\n4. Serve chilled.", "regular"),
+
+        ("Paneer Jalfrezi", "A colorful stir-fry of paneer and bell peppers in a tangy onion-tomato masala.",
+         "", "200g paneer (cubed)\n1 capsicum (diced)\n1 onion (sliced)\n2 tomatoes (diced)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp garam masala\n2 tbsp oil\nSalt to taste",
+         "1. Heat oil, fry paneer cubes until golden. Set aside.\n2. In same pan, add onions and capsicum. Sauté for 2 mins.\n3. Add ginger-garlic paste, tomatoes, and spices. Cook 5 mins.\n4. Return paneer, mix well, cook for 2 mins.\n5. Serve hot with roti or naan.", "regular"),
+
+        ("Chicken Curry (Home-style)", "A simple, homestyle chicken curry made with onion-tomato gravy and whole spices.",
+         "", "200g chicken (curry cut)\n1 onion (chopped)\n2 tomatoes (pureed)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp chili powder\n2 tbsp oil\nSalt to taste\nCoriander leaves",
+         "1. Heat oil, add whole spices and onions. Sauté until golden.\n2. Add ginger-garlic paste, cook 1 min.\n3. Add tomato puree and spice powders. Cook until oil separates.\n4. Add chicken and salt. Cook 5 mins.\n5. Add 1/2 cup water, cover, simmer 15 mins.\n6. Garnish with coriander and serve with rice.", "regular"),
+
+        ("Dal Palak (Spinach Dal)", "A nutritious lentil soup with spinach, packed with iron and protein.",
+         "", "1 cup toor dal\n2 cups spinach (chopped)\n1 onion (chopped)\n2 tomatoes (chopped)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp cumin seeds\n1 tbsp ghee\nSalt to taste",
+         "1. Pressure cook dal with turmeric until soft. Mash.\n2. Heat ghee, add cumin seeds, onions. Sauté until golden.\n3. Add ginger-garlic paste and tomatoes. Cook 2 mins.\n4. Add spinach and cook until wilted.\n5. Add cooked dal and salt. Simmer 10 mins.\n6. Serve hot with rice or roti.", "regular"),
+
+        ("Rajma Masala", "A comforting North Indian red kidney bean curry, a favorite with rice.",
+         "", "1 cup rajma (kidney beans, soaked overnight)\n1 onion (chopped)\n2 tomatoes (pureed)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp garam masala\n2 tbsp oil\nSalt to taste",
+         "1. Pressure cook soaked rajma until soft.\n2. Heat oil, add cumin seeds and onions. Sauté until golden.\n3. Add ginger-garlic paste, tomato puree, spices. Cook 5 mins.\n4. Add cooked rajma and salt. Simmer 15 mins.\n5. Sprinkle garam masala and coriander.\n6. Serve with steamed rice.", "regular"),
+
+        # ---- DIABETES-FRIENDLY RECIPES ----
+        ("Diabetic Adai (Lentil Pancake)", "A rice-free adai made with broken wheat and mixed lentils — low GI, high protein.",
+         "", "1/2 cup broken wheat (dalia)\n1/4 cup green moong dal\n2 tbsp masoor dal\n2 tbsp urad dal\n1 tsp fenugreek seeds\n1/4 cup chopped onion\n1 tsp ginger-green chili paste\n1/4 tsp turmeric\nSalt to taste\nOil for cooking",
+         "1. Soak broken wheat, all dals, and fenugreek seeds for 2 hours. Drain.\n2. Grind to a coarse batter with minimal water.\n3. Mix in onions, ginger-chili paste, turmeric, salt.\n4. Heat non-stick tawa, pour batter, spread thin.\n5. Drizzle oil, cook until golden on both sides.\n6. Serve with sugar-free green chutney.", "diabetes"),
+
+        ("Millet Upma (Jowar/Bajra)", "A diabetes-friendly upma made with millets instead of semolina — high fiber, low GI.",
+         "", "1 cup jowar (sorghum) or bajra flour\n1/2 cup mixed vegetables (carrot, beans, peas)\n1 onion (chopped)\n1 tsp mustard seeds\nFew curry leaves\n1 green chili\n1/2 tsp turmeric\n1 tbsp oil\nSalt to taste",
+         "1. Dry roast millet flour for 3 mins. Set aside.\n2. Heat oil, add mustard seeds, curry leaves, green chili.\n3. Add onions and vegetables. Sauté 3 mins.\n4. Add 2 cups hot water, turmeric, salt. Bring to boil.\n5. Slowly add roasted flour, stirring continuously.\n6. Cook on low flame 5 mins. Serve hot.", "diabetes"),
+
+        ("Ragi (Finger Millet) Dosa", "A crispy, nutritious dosa made with ragi flour — rich in calcium and diabetes-friendly.",
+         "", "1 cup ragi flour\n1/4 cup rice flour\n1/4 cup urad dal (soaked, ground)\n1/2 cup curd\n1 onion (chopped)\n1 green chili\nSalt to taste\nOil for cooking",
+         "1. Mix ragi flour, rice flour, and ground urad dal.\n2. Add curd and water to make pouring consistency batter.\n3. Add onion, green chili, and salt. Mix.\n4. Heat tawa, pour batter, spread thin.\n5. Drizzle oil, cook until crisp.\n6. Serve with sugar-free chutney.", "diabetes"),
+
+        ("Moong Dal Chilla (Diabetes-Friendly)", "A high-protein lentil pancake with low glycemic index, ideal for diabetic breakfast.",
+         "", "1 cup moong dal (soaked 4 hours)\n1/4 cup chopped spinach\n1/4 cup grated zucchini\n1 green chili\n1/2 inch ginger\n1/4 tsp turmeric\nSalt to taste\nOil for cooking",
+         "1. Grind soaked moong dal with green chili and ginger to smooth batter.\n2. Mix in spinach, zucchini, turmeric, and salt.\n3. Heat non-stick pan, pour ladle of batter, spread.\n4. Cook until golden on both sides with minimal oil.\n5. Serve with mint chutney.", "diabetes"),
+
+        ("Karela (Bitter Gourd) Sabzi", "A classic diabetes-friendly bitter gourd stir-fry that helps regulate blood sugar.",
+         "", "2 medium karela (bitter gourd)\n1 onion (sliced)\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1/2 tsp red chili powder\n1 tsp mango powder (amchur)\n1 tbsp oil\nSalt to taste",
+         "1. Scrape karela skin, slice thinly, rub with salt. Set aside 15 mins.\n2. Squeeze out bitter water, rinse.\n3. Heat oil, add cumin seeds, then onions. Sauté until golden.\n4. Add karela, turmeric, chili powder. Cook on low flame 10 mins.\n5. Add mango powder, mix, cook 2 more mins.\n6. Serve as a side dish with roti.", "diabetes"),
+
+        ("Methi (Fenugreek) Thepla", "A Gujarathi-style flatbread made with fenugreek leaves and whole wheat — helps control blood sugar.",
+         "", "1 cup whole wheat flour\n1/2 cup chopped methi (fenugreek) leaves\n1/4 cup yogurt\n1/2 tsp turmeric\n1/2 tsp red chili powder\n1/2 tsp cumin seeds\nSalt to taste\nOil for cooking",
+         "1. Mix flour, methi leaves, yogurt, spices, and salt.\n2. Knead into a soft dough using water as needed.\n3. Divide into balls, roll out into thin theplas.\n4. Cook on tawa with oil until golden spots appear.\n5. Serve with yogurt or pickle.", "diabetes"),
+
+        ("Brown Rice Pulao with Vegetables", "A low-GI pulao made with brown rice and mixed vegetables — perfect diabetic lunch.",
+         "", "1 cup brown rice (soaked 2 hours)\n1 cup mixed vegetables\n1 onion (sliced)\n1 tsp cumin seeds\nWhole spices (cardamom, clove, bay leaf)\n1 tbsp ghee\nSalt to taste",
+         "1. Heat ghee, add whole spices and cumin.\n2. Add onions, sauté until golden.\n3. Add vegetables, cook 2 mins.\n4. Add soaked brown rice, mix gently.\n5. Add 2.5 cups water and salt.\n6. Pressure cook for 4 whistles.\n7. Fluff and serve with raita.", "diabetes"),
+
+        ("Soya Chaap Curry (Low-Calorie)", "A protein-rich, low-calorie curry made with soya chaap in light tomato gravy.",
+         "", "250g soya chaap\n2 onions (chopped)\n3 tomatoes (pureed)\n2 tbsp low-fat curd\n1 tsp ginger-garlic paste\n1 tsp cumin seeds\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp garam masala\n1 tbsp olive oil\nSalt to taste",
+         "1. Heat oil, add cumin seeds, onions. Sauté until golden.\n2. Add ginger-garlic paste, cook 1 min.\n3. Add tomato puree, turmeric, coriander powder. Cook 5 mins.\n4. Add low-fat curd and garam masala. Mix.\n5. Add soya chaap pieces and salt. Cook 10 mins.\n6. Garnish with coriander. Serve hot.", "diabetes"),
+
+        ("Lauki (Bottle Gourd) Curry", "A light, low-calorie bottle gourd curry that's easy to digest and diabetes-friendly.",
+         "", "2 cups lauki (bottle gourd, cubed)\n1 onion (chopped)\n2 tomatoes (chopped)\n1 tsp ginger-garlic paste\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1 tsp coriander powder\n1 tbsp oil\nSalt to taste",
+         "1. Heat oil, add cumin seeds and onions. Sauté until golden.\n2. Add ginger-garlic paste and tomatoes. Cook 2 mins.\n3. Add turmeric, coriander powder, and lauki.\n4. Add 1/2 cup water, cover, cook 15 mins until lauki is soft.\n5. Add salt and cook 2 more mins.\n6. Serve with roti or rice.", "diabetes"),
+    ]
+    for r in famous_recipes:
+        cur.execute("SELECT COUNT(*) FROM recipe WHERE receipename=?", (r[0],))
+        if cur.fetchone()[0] == 0:
+            cur.execute(
+                "INSERT INTO recipe (receipename, description, videoid, ingredients, instructions, diet_type) VALUES (?, ?, ?, ?, ?, ?)",
+                r
+            )
     con.commit()
     con.close()
 
@@ -87,7 +180,7 @@ def check_auth():
 # load the model
 Model_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
 try:
-    model = load_model(Model_path)
+    model = load_model(Model_path, compile=False)
 except Exception as e:
     print(f"Warning: Could not load model: {e}")
     model = None
@@ -209,13 +302,7 @@ def homedeit():
 
     return render_template("deit.html")
 # Create a function to take and image and predict the class
-def model_predict(img_path , model):
-    print(img_path)
-    img = image.load_img(img_path , target_size=(299 , 299))
-    x = image.img_to_array(img)
-    x = x / 255 
-    x = np.expand_dims(x , axis = 0)
-    food_data = {
+FOOD_DATA = {
     0: {
         'product_name': 'burger', 'calories': 450, 'serving_size': '1 medium burger (~200g)',
         'protein': '20g', 'carbs': '35g', 'fat': '22g', 'fiber': '2g',
@@ -317,10 +404,28 @@ def model_predict(img_path , model):
         'vitamins': 'B1, B6', 'minerals': 'Iron, Potassium'
     }
 }
-    preds = model.predict(x)
-    preds = np.argmax(preds , axis = 1)
-    print(preds)
-    return food_data[preds[0]]
+
+def model_predict(img_path, model):
+    print(img_path)
+    img = image.load_img(img_path, target_size=(299, 299))
+    x = image.img_to_array(img)
+    x = x / 255
+    x = np.expand_dims(x, axis=0)
+    preds = model.predict(x, verbose=0)[0]
+    top_3_idx = np.argsort(preds)[-3:][::-1]
+    top_3_conf = preds[top_3_idx]
+    primary = FOOD_DATA[top_3_idx[0]].copy()
+    primary['confidence'] = round(float(top_3_conf[0]) * 100, 1)
+    alternatives = []
+    for i in range(1, 3):
+        alt = FOOD_DATA[top_3_idx[i]]['product_name'].replace('_', ' ').title()
+        alternatives.append({
+            'name': alt,
+            'confidence': round(float(top_3_conf[i]) * 100, 1)
+        })
+    result = primary
+    result['alternatives'] = alternatives
+    return result
 
 
 
@@ -426,10 +531,17 @@ def uploads():
 def view_recipes():
     if not check_auth():
         return redirect("/")
+    diet_filter = request.args.get('diet', 'all')
+    search_q = request.args.get('q', '')
     conn = sqlite3.connect(os.path.join(BASE_DIR, 'signup.db'))
-    recipes = conn.execute("SELECT * FROM recipe").fetchall()
+    if diet_filter == 'all':
+        recipes = conn.execute("SELECT * FROM recipe WHERE receipename LIKE ? OR description LIKE ?",
+                               (f'%{search_q}%', f'%{search_q}%')).fetchall()
+    else:
+        recipes = conn.execute("SELECT * FROM recipe WHERE diet_type = ? AND (receipename LIKE ? OR description LIKE ?)",
+                               (diet_filter, f'%{search_q}%', f'%{search_q}%')).fetchall()
     conn.close()
-    return render_template("receipe.html", recipes=recipes)
+    return render_template("receipe.html", recipes=recipes, current_diet=diet_filter)
 
 @app.route("/add", methods=["POST"])
 def add_recipe():
@@ -440,9 +552,10 @@ def add_recipe():
     videoid = request.form.get("videoid", "")
     ingredients = request.form.get("ingredients", "")
     instructions = request.form.get("instructions", "")
+    diet_type = request.form.get("diet_type", "both")
     with sqlite3.connect(os.path.join(BASE_DIR, 'signup.db')) as conn:
-        conn.execute("INSERT INTO recipe (receipename, description, videoid, ingredients, instructions) VALUES (?, ?, ?, ?, ?)",
-                     (name, description, videoid, ingredients, instructions))
+        conn.execute("INSERT INTO recipe (receipename, description, videoid, ingredients, instructions, diet_type) VALUES (?, ?, ?, ?, ?, ?)",
+                     (name, description, videoid, ingredients, instructions, diet_type))
     return redirect(url_for("view_recipes"))
 
 @app.route("/edit/<int:recipeid>", methods=["POST"])
@@ -454,9 +567,10 @@ def edit_recipe(recipeid):
     videoid = request.form.get("videoid", "")
     ingredients = request.form.get("ingredients", "")
     instructions = request.form.get("instructions", "")
+    diet_type = request.form.get("diet_type", "both")
     with sqlite3.connect(os.path.join(BASE_DIR, 'signup.db')) as conn:
-        conn.execute("UPDATE recipe SET receipename=?, description=?, videoid=?, ingredients=?, instructions=? WHERE recipeid=?",
-                     (name, description, videoid, ingredients, instructions, recipeid))
+        conn.execute("UPDATE recipe SET receipename=?, description=?, videoid=?, ingredients=?, instructions=?, diet_type=? WHERE recipeid=?",
+                     (name, description, videoid, ingredients, instructions, diet_type, recipeid))
     return redirect(url_for("view_recipes"))
 
 @app.route("/delete/<int:recipeid>")
@@ -468,6 +582,7 @@ def delete_recipe(recipeid):
     return redirect(url_for("view_recipes"))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
