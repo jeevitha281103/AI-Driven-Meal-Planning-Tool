@@ -61,12 +61,10 @@ body {
 
 .brand-text {
   font-weight: 800;
-  font-size: 1.45rem;
   letter-spacing: -0.5px;
 }
 
 .brand-icon {
-  font-size: 1.6rem;
   animation: float 3s ease-in-out infinite;
 }
 
