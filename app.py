@@ -1,25 +1,46 @@
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
+import sys
 import secrets
+import time
+import logging
 import numpy as np
 import pandas as pd
 
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
+tf.config.threading.set_intra_op_parallelism_threads(1)
+tf.config.threading.set_inter_op_parallelism_threads(1)
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-from flask import Flask, request, session, redirect, render_template, jsonify, url_for
+from flask import Flask, request, session, redirect, render_template, jsonify, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 import sqlite3
 import random
 from meal_recipes import MEAL_RECIPES
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+@app.after_request
+def add_cache_headers(response):
+    if request.path.startswith('/static/'):
+        response.headers['Cache-Control'] = 'public, max-age=31536000'
+    return response
+
+@app.route('/health')
+def health():
+    return jsonify({"status": "ok", "timestamp": time.time()}), 200
 
 # Database auto-initialization
 def init_db():
@@ -271,28 +292,37 @@ _model = None
 
 def get_model():
     global _model
-    if _model is None:
-        Model_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
-        
-        # Check if file is an LFS pointer (small file = pointer)
-        if os.path.exists(Model_path) and os.path.getsize(Model_path) < 1000:
-            print(f"Model file is an LFS pointer ({os.path.getsize(Model_path)} bytes). Attempting git lfs pull...")
-            import subprocess
-            try:
-                subprocess.run(["git", "lfs", "install"], capture_output=True, timeout=30)
-                subprocess.run(["git", "lfs", "pull"], capture_output=True, timeout=120)
-                print("git lfs pull completed")
-            except Exception as e:
-                print(f"git lfs pull failed: {e}")
-        
+    if _model is not None:
+        return _model
+    
+    Model_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
+    
+    # Check if file is an LFS pointer
+    if os.path.exists(Model_path) and os.path.getsize(Model_path) < 1000:
+        logger.info(f"Model is LFS pointer ({os.path.getsize(Model_path)} bytes). Running git lfs pull...")
+        import subprocess
         try:
-            file_size = os.path.getsize(Model_path) if os.path.exists(Model_path) else 0
-            print(f"Loading model from {Model_path} (size: {file_size} bytes)")
-            _model = load_model(Model_path, compile=False)
-            print("Model loaded successfully")
+            subprocess.run(["git", "lfs", "install"], capture_output=True, timeout=30)
+            subprocess.run(["git", "lfs", "pull"], capture_output=True, timeout=180)
+            logger.info("git lfs pull completed")
         except Exception as e:
-            print(f"ERROR: Could not load model: {e}")
-            _model = None
+            logger.error(f"git lfs pull failed: {e}")
+    
+    if not os.path.exists(Model_path):
+        logger.error(f"Model file not found at {Model_path}")
+        return None
+    
+    file_size = os.path.getsize(Model_path)
+    logger.info(f"Loading model ({file_size / 1024 / 1024:.1f} MB)...")
+    
+    try:
+        start = time.time()
+        _model = load_model(Model_path, compile=False)
+        logger.info(f"Model loaded in {time.time() - start:.1f}s")
+    except Exception as e:
+        logger.error(f"Could not load model: {e}")
+        _model = None
+    
     return _model
 
 # BMI functions
@@ -522,26 +552,32 @@ FOOD_DATA = {
 }
 
 def model_predict(img_path, model):
-    print(img_path)
+    logger.info(f"Predicting: {img_path}")
+    start = time.time()
+    
     img = image.load_img(img_path, target_size=(299, 299))
     x = image.img_to_array(img)
-    x = x / 255
-    x = np.expand_dims(x, axis=0)
+    x = np.expand_dims(x, axis=0) / 255.0
+    
     preds = model.predict(x, verbose=0)[0]
+    elapsed = time.time() - start
+    logger.info(f"Prediction took {elapsed:.2f}s")
+    
     top_3_idx = np.argsort(preds)[-3:][::-1]
     top_3_conf = preds[top_3_idx]
+    
     primary = FOOD_DATA[top_3_idx[0]].copy()
     primary['confidence'] = round(float(top_3_conf[0]) * 100, 1)
+    
     alternatives = []
     for i in range(1, 3):
-        alt = FOOD_DATA[top_3_idx[i]]['product_name'].replace('_', ' ').title()
         alternatives.append({
-            'name': alt,
+            'name': FOOD_DATA[top_3_idx[i]]['product_name'].replace('_', ' ').title(),
             'confidence': round(float(top_3_conf[i]) * 100, 1)
         })
-    result = primary
-    result['alternatives'] = alternatives
-    return result
+    
+    primary['alternatives'] = alternatives
+    return primary
 
 
 
@@ -629,20 +665,29 @@ def uploads():
     if model is None:
         return jsonify({"error": "Model not loaded. Please ensure Model/model_v1_inceptionV3.h5 exists."}), 500
 
+    file_path = None
     try:
-        # Save the file to ./uploads
         uploads_dir = os.path.join(BASE_DIR, 'uploads')
         os.makedirs(uploads_dir, exist_ok=True)
-        file_path = os.path.join(uploads_dir, secure_filename(f.filename))
+        
+        filename = secure_filename(f.filename)
+        if not filename:
+            filename = f"upload_{int(time.time())}.jpg"
+        
+        file_path = os.path.join(uploads_dir, filename)
         f.save(file_path)
 
-        # Make Prediction
         preds = model_predict(file_path, model)
         return jsonify(preds)
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        logger.error(f"Prediction error: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
+    finally:
+        if file_path and os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except OSError:
+                pass
 
 
 
