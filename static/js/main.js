@@ -145,6 +145,7 @@ $(document).ready(function () {
     resultDetails.hide();
     resultPlaceholder.show();
     resultWarning.hide();
+    $("#upload-pane").addClass("has-image");
     readURL(this);
   });
 
