@@ -289,41 +289,49 @@ def check_auth():
 
 # load the model lazily to save memory
 _model = None
+_model_type = None
 
 def get_model():
-    global _model
+    global _model, _model_type
     if _model is not None:
         return _model
-    
-    Model_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
-    
-    # Check if file is an LFS pointer
-    if os.path.exists(Model_path) and os.path.getsize(Model_path) < 1000:
-        logger.info(f"Model is LFS pointer ({os.path.getsize(Model_path)} bytes). Running git lfs pull...")
-        import subprocess
+
+    h5_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
+    tflite_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.tflite")
+
+    # Prefer TFLite if available (smaller, works without LFS)
+    if os.path.exists(tflite_path) and os.path.getsize(tflite_path) > 1000:
+        file_size = os.path.getsize(tflite_path) / 1024 / 1024
+        logger.info(f"Loading TFLite model ({file_size:.1f} MB)...")
         try:
-            subprocess.run(["git", "lfs", "install"], capture_output=True, timeout=30)
-            subprocess.run(["git", "lfs", "pull"], capture_output=True, timeout=180)
-            logger.info("git lfs pull completed")
+            import tensorflow.lite as tflite
+            interpreter = tflite.Interpreter(model_path=tflite_path)
+            interpreter.allocate_tensors()
+            _model = interpreter
+            _model_type = "tflite"
+            logger.info("TFLite model loaded successfully")
+            return _model
         except Exception as e:
-            logger.error(f"git lfs pull failed: {e}")
-    
-    if not os.path.exists(Model_path):
-        logger.error(f"Model file not found at {Model_path}")
-        return None
-    
-    file_size = os.path.getsize(Model_path)
-    logger.info(f"Loading model ({file_size / 1024 / 1024:.1f} MB)...")
-    
-    try:
-        start = time.time()
-        _model = load_model(Model_path, compile=False)
-        logger.info(f"Model loaded in {time.time() - start:.1f}s")
-    except Exception as e:
-        logger.error(f"Could not load model: {e}")
-        _model = None
-    
-    return _model
+            logger.error(f"TFLite load failed: {e}")
+
+    # Fallback to H5
+    if os.path.exists(h5_path):
+        file_size = os.path.getsize(h5_path)
+        if file_size < 1000:
+            logger.error(f"H5 model is LFS pointer ({file_size} bytes). Run convert_model.py locally.")
+            return None
+        logger.info(f"Loading H5 model ({file_size / 1024 / 1024:.1f} MB)...")
+        try:
+            start = time.time()
+            _model = load_model(h5_path, compile=False)
+            _model_type = "h5"
+            logger.info(f"H5 model loaded in {time.time() - start:.1f}s")
+            return _model
+        except Exception as e:
+            logger.error(f"H5 load failed: {e}")
+
+    logger.error("No valid model file found. Run convert_model.py locally and push.")
+    return None
 
 # BMI functions
 def calculate_bmi(weight_kg, height_cm):
@@ -554,28 +562,36 @@ FOOD_DATA = {
 def model_predict(img_path, model):
     logger.info(f"Predicting: {img_path}")
     start = time.time()
-    
+
     img = image.load_img(img_path, target_size=(299, 299))
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0) / 255.0
-    
-    preds = model.predict(x, verbose=0)[0]
+
+    if _model_type == "tflite":
+        input_details = model.get_input_details()
+        output_details = model.get_output_details()
+        model.set_tensor(input_details[0]['index'], x.astype(np.float32))
+        model.invoke()
+        preds = model.get_tensor(output_details[0]['index'])[0]
+    else:
+        preds = model.predict(x, verbose=0)[0]
+
     elapsed = time.time() - start
     logger.info(f"Prediction took {elapsed:.2f}s")
-    
+
     top_3_idx = np.argsort(preds)[-3:][::-1]
     top_3_conf = preds[top_3_idx]
-    
+
     primary = FOOD_DATA[top_3_idx[0]].copy()
     primary['confidence'] = round(float(top_3_conf[0]) * 100, 1)
-    
+
     alternatives = []
     for i in range(1, 3):
         alternatives.append({
             'name': FOOD_DATA[top_3_idx[i]]['product_name'].replace('_', ' ').title(),
             'confidence': round(float(top_3_conf[i]) * 100, 1)
         })
-    
+
     primary['alternatives'] = alternatives
     return primary
 
