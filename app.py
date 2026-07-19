@@ -1,16 +1,17 @@
 import os
+import secrets
 import numpy as np
 import pandas as pd
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-from flask import *
+from flask import Flask, request, session, redirect, render_template, jsonify, url_for
 from werkzeug.utils import secure_filename
 import sqlite3
 import random
 from meal_recipes import MEAL_RECIPES
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
