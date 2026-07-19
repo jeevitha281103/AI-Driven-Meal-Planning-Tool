@@ -273,10 +273,25 @@ def get_model():
     global _model
     if _model is None:
         Model_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
+        
+        # Check if file is an LFS pointer (small file = pointer)
+        if os.path.exists(Model_path) and os.path.getsize(Model_path) < 1000:
+            print(f"Model file is an LFS pointer ({os.path.getsize(Model_path)} bytes). Attempting git lfs pull...")
+            import subprocess
+            try:
+                subprocess.run(["git", "lfs", "install"], capture_output=True, timeout=30)
+                subprocess.run(["git", "lfs", "pull"], capture_output=True, timeout=120)
+                print("git lfs pull completed")
+            except Exception as e:
+                print(f"git lfs pull failed: {e}")
+        
         try:
+            file_size = os.path.getsize(Model_path) if os.path.exists(Model_path) else 0
+            print(f"Loading model from {Model_path} (size: {file_size} bytes)")
             _model = load_model(Model_path, compile=False)
+            print("Model loaded successfully")
         except Exception as e:
-            print(f"Warning: Could not load model: {e}")
+            print(f"ERROR: Could not load model: {e}")
             _model = None
     return _model
 
@@ -616,7 +631,9 @@ def uploads():
 
     try:
         # Save the file to ./uploads
-        file_path = os.path.join(BASE_DIR , 'uploads' , secure_filename(f.filename))
+        uploads_dir = os.path.join(BASE_DIR, 'uploads')
+        os.makedirs(uploads_dir, exist_ok=True)
+        file_path = os.path.join(uploads_dir, secure_filename(f.filename))
         f.save(file_path)
 
         # Make Prediction
