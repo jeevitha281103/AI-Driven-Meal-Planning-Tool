@@ -157,19 +157,19 @@ body {
   gap: 1rem;
 }
 
-#upload-pane .upload-label {
+#upload-pane > form {
   order: 1;
 }
 
-#upload-pane .image-section {
+#upload-pane > .image-section {
   order: 2;
 }
 
-#upload-pane.has-image .upload-label {
+#upload-pane.has-image > form {
   order: 2;
 }
 
-#upload-pane.has-image .image-section {
+#upload-pane.has-image > .image-section {
   order: 1;
 }
 
