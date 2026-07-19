@@ -158,9 +158,91 @@ def seed_famous_recipes():
          "", "250g soya chaap\n2 onions (chopped)\n3 tomatoes (pureed)\n2 tbsp low-fat curd\n1 tsp ginger-garlic paste\n1 tsp cumin seeds\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp garam masala\n1 tbsp olive oil\nSalt to taste",
          "1. Heat oil, add cumin seeds, onions. Sauté until golden.\n2. Add ginger-garlic paste, cook 1 min.\n3. Add tomato puree, turmeric, coriander powder. Cook 5 mins.\n4. Add low-fat curd and garam masala. Mix.\n5. Add soya chaap pieces and salt. Cook 10 mins.\n6. Garnish with coriander. Serve hot.", "diabetes"),
 
-        ("Lauki (Bottle Gourd) Curry", "A light, low-calorie bottle gourd curry that's easy to digest and diabetes-friendly.",
-         "", "2 cups lauki (bottle gourd, cubed)\n1 onion (chopped)\n2 tomatoes (chopped)\n1 tsp ginger-garlic paste\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1 tsp coriander powder\n1 tbsp oil\nSalt to taste",
-         "1. Heat oil, add cumin seeds and onions. Sauté until golden.\n2. Add ginger-garlic paste and tomatoes. Cook 2 mins.\n3. Add turmeric, coriander powder, and lauki.\n4. Add 1/2 cup water, cover, cook 15 mins until lauki is soft.\n5. Add salt and cook 2 more mins.\n6. Serve with roti or rice.", "diabetes"),
+         ("Lauki (Bottle Gourd) Curry", "A light, low-calorie bottle gourd curry that's easy to digest and diabetes-friendly.",
+          "", "2 cups lauki (bottle gourd, cubed)\n1 onion (chopped)\n2 tomatoes (chopped)\n1 tsp ginger-garlic paste\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1 tsp coriander powder\n1 tbsp oil\nSalt to taste",
+          "1. Heat oil, add cumin seeds and onions. Sauté until golden.\n2. Add ginger-garlic paste and tomatoes. Cook 2 mins.\n3. Add turmeric, coriander powder, and lauki.\n4. Add 1/2 cup water, cover, cook 15 mins until lauki is soft.\n5. Add salt and cook 2 more mins.\n6. Serve with roti or rice.", "diabetes"),
+
+        # ---- NEW REGULAR RECIPES (10) ----
+        ("Pesarattu (Green Gram Dosa)", "A protein-rich Andhra-style dosa made from whole green gram — crispy, nutritious, and delicious.",
+         "", "1 cup whole green gram (soaked overnight)\n1/2 inch ginger\n2 green chilies\n1/4 tsp cumin seeds\nSalt to taste\nOil for cooking",
+         "1. Drain soaked green gram and grind with ginger, green chili, and minimal water to thick batter.\n2. Add cumin seeds and salt. Mix.\n3. Heat tawa, pour ladle of batter and spread thin.\n4. Drizzle oil and cook until golden and crisp.\n5. Serve hot with ginger chutney and upma.", "regular"),
+
+        ("Sabudana Khichdi", "A beloved fasting dish made with sago pearls, peanuts, and mild spices — light yet filling.",
+         "", "1 cup sabudana (sago, soaked overnight)\n1/2 cup roasted peanuts (crushed)\n1 potato (diced)\n1 green chili (chopped)\n1 tsp cumin seeds\nFew curry leaves\n1 tbsp lemon juice\nSalt to taste\n1 tbsp oil\nFresh coriander",
+         "1. Drain soaked sabudana and add salt and crushed peanuts.\n2. Heat oil, add cumin seeds, curry leaves, green chili.\n3. Add diced potato and cook until golden.\n4. Add sabudana mixture and cook on low flame for 5-7 mins.\n5. Stir gently until sabudana turns translucent.\n6. Add lemon juice and coriander.\n7. Serve hot.", "regular"),
+
+        ("Chole Bhature", "A iconic Punjabi street food — spicy chickpea curry paired with fluffy deep-fried bread.",
+         "", "1 cup chickpeas (soaked overnight)\n2 onions (pureed)\n2 tomatoes (pureed)\n1 tbsp ginger-garlic paste\n2 tsp chole masala\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp red chili powder\n2 tbsp oil\nSalt to taste\nFor bhature: 2 cups maida, 1/2 cup yogurt, 1 tsp baking powder, salt, oil for frying",
+         "1. Pressure cook chickpeas until soft.\n2. Heat oil, add onion puree and cook until golden.\n3. Add ginger-garlic paste, then tomato puree and spices. Cook until oil separates.\n4. Add chickpeas and simmer 15 mins.\n5. For bhature: mix flour, yogurt, baking powder, salt. Knead dough, rest 2 hours.\n6. Roll into rounds and deep fry until puffed.\n7. Serve hot bhature with chole.", "regular"),
+
+        ("Aloo Gobi Masala", "A North Indian classic — potatoes and cauliflower cooked in aromatic onion-tomato gravy.",
+         "", "2 potatoes (cubed)\n1 cauliflower (cut into florets)\n1 onion (chopped)\n2 tomatoes (chopped)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp garam masala\n1 tsp cumin seeds\n2 tbsp oil\nSalt to taste\nFresh coriander",
+         "1. Heat oil, add cumin seeds.\n2. Add onions and sauté until golden.\n3. Add ginger-garlic paste and cook for 1 min.\n4. Add tomatoes, turmeric, coriander powder. Cook until soft.\n5. Add potatoes and cauliflower. Mix well.\n6. Add 1/4 cup water, cover and cook until tender.\n7. Add garam masala and coriander. Serve hot with roti.", "regular"),
+
+        ("Egg Curry (Kerala Style)", "A fragrant coconut-based egg curry from Kerala — rich, creamy, and full of flavor.",
+         "", "4 boiled eggs\n1 cup coconut milk\n1 onion (sliced)\n2 tomatoes (chopped)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp red chili powder\n1 tsp cumin seeds\nFew curry leaves\n2 tbsp coconut oil\nSalt to taste",
+         "1. Score boiled eggs lightly.\n2. Heat coconut oil, add cumin seeds and curry leaves.\n3. Add onions and sauté until golden.\n4. Add ginger-garlic paste and tomatoes. Cook until soft.\n5. Add turmeric, chili powder, and coconut milk. Simmer.\n6. Add boiled eggs and cook for 5 mins.\n7. Serve hot with steamed rice.", "regular"),
+
+        ("Paneer Tikka Masala", "Smoky grilled paneer cubes in a creamy, spiced tomato gravy — a restaurant favorite at home.",
+         "", "200g paneer (cubed)\n1/2 cup yogurt\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp red chili powder\n1 tsp garam masala\n2 tomatoes (pureed)\n1/4 cup cream\n1 tbsp butter\n1 bell pepper (cubed)\n1 onion (cubed)\nSalt to taste",
+         "1. Marinate paneer in yogurt, ginger-garlic, turmeric, chili powder for 30 mins.\n2. Grill or pan-fry paneer until charred. Set aside.\n3. Heat butter, add tomato puree and cook until thick.\n4. Add garam masala, cream, and salt.\n5. Add grilled paneer, bell pepper, and onion.\n6. Simmer for 3 mins.\n7. Serve hot with naan or roti.", "regular"),
+
+        ("Malai Kofta", "Soft paneer-potato dumplings in a rich, creamy tomato-cashew gravy — a Mughlai delicacy.",
+         "", "For kofta: 1 cup paneer (grated), 2 boiled potatoes (mashed), 2 tbsp corn flour, salt, oil for frying\nFor gravy: 2 tomatoes (pureed), 1/4 cup cashew paste, 1/2 tsp turmeric, 1 tsp garam masala, 1 tbsp cream, 1 tbsp butter, salt to taste",
+         "1. Mix grated paneer, mashed potatoes, corn flour, and salt. Shape into balls.\n2. Deep fry until golden. Set aside.\n3. Heat butter, add tomato puree and cook until oil separates.\n4. Add cashew paste, turmeric, garam masala, and salt.\n5. Add 1/2 cup water and simmer.\n6. Add cream and kofta balls.\n7. Serve hot with pulao or naan.", "regular"),
+
+        ("Chicken Tikka", "Juicy chicken chunks marinated in yogurt and spices, grilled to smoky perfection.",
+         "", "300g chicken (boneless, cubed)\n1/2 cup yogurt\n1 tbsp ginger-garlic paste\n1 tsp red chili powder\n1/2 tsp turmeric\n1 tsp garam masala\n1 tbsp lemon juice\n1 tbsp oil\nSalt to taste\nSkewers",
+         "1. Mix yogurt, ginger-garlic paste, spices, lemon juice, oil, and salt.\n2. Marinate chicken for at least 1 hour.\n3. Thread onto skewers.\n4. Grill or bake at 200°C for 15-18 mins, turning once.\n5. Serve hot with mint chutney and onion rings.", "regular"),
+
+        ("Dal Makhani", "A rich, slow-cooked black lentil curry with butter and cream — a Punjabi classic.",
+         "", "1 cup whole black urad dal (soaked overnight)\n1/4 cup rajma (soaked overnight)\n2 tomatoes (pureed)\n1 tbsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp red chili powder\n2 tbsp butter\n1/4 cup cream\nSalt to taste\nFresh coriander",
+         "1. Pressure cook soaked dal and rajma until very soft.\n2. Mash lightly.\n3. Heat butter, add ginger-garlic paste and tomato puree.\n4. Cook until oil separates.\n5. Add cooked dal, turmeric, chili powder, and salt.\n6. Simmer on low flame for 20-30 mins, stirring occasionally.\n7. Add cream and butter. Garnish with coriander.\n8. Serve with naan or rice.", "regular"),
+
+        ("Mutton Rogan Josh", "A rich Kashmiri lamb curry slow-cooked with aromatic spices and yogurt gravy.",
+         "", "300g mutton (bone-in)\n1 cup yogurt\n2 onions (sliced)\n2 tomatoes (pureed)\n1 tbsp ginger-garlic paste\n1 tsp Kashmiri red chili powder\n1/2 tsp turmeric\n1 tsp garam masala\nWhole spices (cardamom, cloves, cinnamon)\n2 tbsp oil\nSalt to taste",
+         "1. Heat oil, add whole spices and onions. Fry until golden.\n2. Add ginger-garlic paste and cook.\n3. Add mutton pieces and sear on high heat.\n4. Add tomato puree, turmeric, chili powder. Cook until oil separates.\n5. Add whisked yogurt gradually, stirring.\n6. Add 1/2 cup water, cover and simmer for 45-60 mins until tender.\n7. Add garam masala and salt.\n8. Serve hot with rice or naan.", "regular"),
+
+        # ---- NEW DIABETES-FRIENDLY RECIPES (10) ----
+        ("Barley Vegetable Upma", "A low-GI breakfast made with pearl barley and mixed vegetables — high fiber, slow-release energy.",
+         "", "1 cup pearl barley (soaked 2 hours)\n1/2 cup mixed vegetables\n1 onion (chopped)\n1 tsp mustard seeds\n2 green chilies\nFew curry leaves\n1 tbsp oil\nSalt to taste\nLemon juice",
+         "1. Drain soaked barley.\n2. Heat oil, add mustard seeds, curry leaves, green chilies.\n3. Add onions and vegetables. Sauté for 3 mins.\n4. Add barley and 2.5 cups water. Salt.\n5. Cover and cook on low flame for 20-25 mins until soft.\n6. Add lemon juice. Serve warm.", "diabetes"),
+
+        ("Bajra Roti with Methi Sabzi", "A traditional Rajasthani meal — millet flatbread with fenugreek greens for blood sugar control.",
+         "", "For roti: 1 cup bajra flour, water, salt\nFor sabzi: 2 cups methi leaves (chopped), 1 onion (chopped), 2 green chilies, 1/2 tsp cumin seeds, 1 tbsp oil, salt to taste",
+         "1. Knead bajra flour with water and salt into soft dough.\n2. Roll into rotis and cook on tawa with minimal ghee.\n3. For sabzi: heat oil, add cumin seeds, onions, green chilies.\n4. Add methi leaves and cook until wilted.\n5. Add salt and mix well.\n6. Serve bajra roti with methi sabzi.", "diabetes"),
+
+        ("Moong Dal Pancakes (Diabetic)", "Light, protein-rich pancakes made from green gram — perfect low-GI breakfast option.",
+         "", "1 cup moong dal (soaked 4 hours)\n1/4 cup oats\n1 green chili\n1/2 inch ginger\n1/4 tsp turmeric\nSalt to taste\nOil for cooking",
+         "1. Grind soaked moong dal, oats, green chili, and ginger to batter.\n2. Add turmeric and salt.\n3. Heat non-stick pan, pour batter and spread.\n4. Drizzle minimal oil and cook until golden on both sides.\n5. Serve with mint chutney.", "diabetes"),
+
+        ("Brown Rice Khichdi (Diabetic)", "A comforting one-pot meal with brown rice and moong dal — gentle on blood sugar levels.",
+         "", "1/2 cup brown rice\n1/2 cup moong dal\n1 tsp ghee\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1/2 cup mixed vegetables\nSalt to taste\n3 cups water",
+         "1. Wash brown rice and moong dal together.\n2. Heat ghee, add cumin seeds.\n3. Add vegetables and sauté for 2 mins.\n4. Add rice, dal, turmeric, salt, and water.\n5. Pressure cook for 4-5 whistles.\n6. Mash lightly and serve hot with yogurt.", "diabetes"),
+
+        ("Quinoa Biryani (Diabetic)", "A protein-packed, low-GI biryani made with quinoa and fresh vegetables.",
+         "", "1 cup quinoa\n1 cup mixed vegetables\n1 onion (sliced)\n1/2 cup yogurt\n1 tsp biryani masala\n1 tbsp ghee\nWhole spices\nFresh mint and coriander\nSalt to taste",
+         "1. Rinse quinoa thoroughly.\n2. Heat ghee, add whole spices and onions. Fry until golden.\n3. Add yogurt, biryani masala, and vegetables. Cook 3 mins.\n4. Add quinoa and 2 cups water.\n5. Cover and cook on low flame for 15 mins.\n6. Garnish with mint and coriander. Serve hot.", "diabetes"),
+
+        ("Grilled Fish with Steamed Vegetables (Diabetic)", "A lean protein meal — perfectly grilled fish with fiber-rich steamed vegetables.",
+         "", "200g fish fillet\n1 cup mixed vegetables (broccoli, zucchini, carrot)\n1 tsp lemon juice\n1/2 tsp garlic powder\n1 tbsp olive oil\nSalt and pepper to taste\nFresh herbs",
+         "1. Season fish with garlic powder, lemon juice, oil, salt, pepper.\n2. Grill fish for 4-5 mins each side.\n3. Steam or sauté vegetables until tender.\n4. Serve grilled fish with vegetables.\n5. Garnish with fresh herbs.", "diabetes"),
+
+        ("Stuffed Bell Peppers with Quinoa (Diabetic)", "Colorful peppers stuffed with quinoa, beans, and spices — low GI, high nutrition.",
+         "", "4 bell peppers (mixed colors)\n1 cup cooked quinoa\n1/2 cup black beans\n1/2 cup corn\n1/2 tsp cumin\n1/2 tsp chili powder\n1 tbsp olive oil\nSalt to taste\nCheese for topping (optional)",
+         "1. Cut bell peppers in half, remove seeds.\n2. Mix quinoa, beans, corn, cumin, chili powder, oil, salt.\n3. Stuff peppers with mixture.\n4. Top with cheese if using.\n5. Bake at 190°C for 20-25 mins.\n6. Serve hot.", "diabetes"),
+
+        ("Steamed Dal with Brown Rice (Diabetic)", "A light, nutritious combination of steamed lentils over brown rice — ideal diabetic comfort food.",
+         "", "1/2 cup toor dal\n1/2 cup brown rice\n1 tsp ghee\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1 tomato (chopped)\nSalt to taste\nFresh coriander",
+         "1. Wash dal and rice separately.\n2. Cook dal with turmeric until soft. Mash.\n3. Cook brown rice until fluffy.\n4. Heat ghee, add cumin seeds and tomatoes.\n5. Add cooked dal and salt. Simmer.\n6. Serve dal over brown rice with coriander.", "diabetes"),
+
+        ("Stir-Fried Tofu with Broccoli (Diabetic)", "A quick, protein-rich stir-fry — tofu and broccoli in light Asian-style sauce.",
+         "", "200g firm tofu (cubed)\n2 cups broccoli florets\n2 cloves garlic (minced)\n1 tbsp soy sauce\n1 tsp sesame oil\n1 tbsp oil\nBlack pepper to taste",
+         "1. Press tofu and cut into cubes.\n2. Heat oil, fry tofu until golden. Set aside.\n3. In same pan, add sesame oil and garlic.\n4. Add broccoli and stir fry for 3-4 mins.\n5. Add soy sauce and tofu. Toss well.\n6. Serve hot with brown rice.", "diabetes"),
+
+        ("Karela (Bitter Gourd) Stir-Fry with Chana (Diabetic)", "A double diabetes-fighter — bitter gourd with roasted chickpeas for blood sugar regulation.",
+         "", "2 medium karela (bitter gourd)\n1/2 cup boiled chickpeas\n1 onion (sliced)\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1/2 tsp red chili powder\n1 tsp amchur (mango powder)\n1 tbsp oil\nSalt to taste",
+         "1. Scrape karela, slice thinly, rub with salt. Rest 15 mins.\n2. Squeeze out bitter water, rinse.\n3. Heat oil, add cumin seeds and onions. Sauté until golden.\n4. Add karela, turmeric, chili powder. Cook on low flame 10 mins.\n5. Add roasted chickpeas and amchur.\n6. Cook 2 more mins and serve as a side dish.", "diabetes"),
     ]
     for r in famous_recipes:
         cur.execute("SELECT COUNT(*) FROM recipe WHERE receipename=?", (r[0],))
@@ -237,6 +319,12 @@ def build_meal_data(all_meals=False, diabetes_only=False):
             'Moong Dal Khichdi', 'Spinach Soup', 'Clear Vegetable Soup', 'Oats Khichdi',
             'Steamed Vegetables with Tofu', 'Tofu and Vegetable Stir Fry', 'Masoor Dal with Quinoa',
             'Vegetable Pulao (with brown rice)', 'Grilled Salmon with Steamed Veggies', 'Spinach and Lentil Soup',
+            # New Regular meals (10)
+            'Pesarattu', 'Moong Dal Halwa', 'Rava Idli', 'Chole Masala', 'Sabudana Khichdi',
+            'Vegetable Rava Upma', 'Egg Curry', 'Aloo Gobi', 'Rajma Rice', 'Bhel Puri',
+            # New Diabetic meals (10)
+            'Barley Upma', 'Bajra Roti with Sprouts Sabzi', 'Moong Dal Pancakes', 'Brown Rice Khichdi', 'Quinoa Biryani',
+            'Grilled Fish with Vegetables', 'Steamed Dal with Brown Rice', 'Stuffed Bell Peppers', 'Stir-Fried Tofu with Broccoli', 'Kadai Paneer',
             # Extra variety items (30)
             'Masala Oats', 'Scrambled Eggs with Spinach', 'Avocado Toast with Whole Grain Bread',
             'Apple with Almond Butter', 'Fresh Fruit Salad', 'Cucumber Slices with Lemon',

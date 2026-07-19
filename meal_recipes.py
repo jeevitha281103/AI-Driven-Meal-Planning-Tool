@@ -471,6 +471,111 @@ MEAL_RECIPES = {
 "Mushroom Curry with Brown Rice": {
     "ingredients": "200g mushrooms (sliced)\n1 onion (chopped)\n2 tomatoes (pureed)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp garam masala\n2 tbsp oil\nSalt to taste\n1 cup cooked brown rice",
     "instructions": "1. Heat oil, add onions and sauté until golden.\n2. Add ginger-garlic paste and cook for 1 min.\n3. Add tomato puree and spices. Cook until oil separates.\n4. Add mushrooms and salt. Cook for 8-10 mins.\n5. Add garam masala and coriander.\n6. Serve mushroom curry with brown rice."
+},
+
+"Pesarattu": {
+    "ingredients": "1 cup green gram (moong, soaked overnight)\n1/2 inch ginger\n2 green chilies\nSalt to taste\n1/4 tsp cumin seeds\nOil for cooking\n1/2 cup upma for filling (optional)",
+    "instructions": "1. Drain soaked green gram and grind with ginger, green chili, and minimal water to thick batter.\n2. Add cumin seeds and salt. Mix well.\n3. Heat tawa, pour ladle of batter and spread thin.\n4. Drizzle oil and cook until golden and crisp.\n5. Serve hot with ginger chutney."
+},
+
+"Moong Dal Halwa": {
+    "ingredients": "1 cup yellow moong dal (soaked 4 hours)\n1/4 cup ghee\n1/4 cup sugar\n1/2 tsp cardamom powder\n2 tbsp mixed nuts (chopped)\n1 cup milk",
+    "instructions": "1. Grind soaked moong dal to a fine paste with minimal water.\n2. Heat ghee in a pan, add moong dal paste.\n3. Cook on low flame, stirring continuously for 20-25 mins until golden.\n4. Add milk gradually, stirring to avoid lumps.\n5. Add sugar and cardamom. Mix well.\n6. Cook until ghee separates.\n7. Garnish with nuts and serve warm."
+},
+
+"Rava Idli": {
+    "ingredients": "1 cup semolina (rava)\n1/2 cup yogurt\n1 tsp fruit salt (Eno)\n1 carrot (grated)\n2 tbsp cashews (chopped)\n1 tsp mustard seeds\nFew curry leaves\n1 green chili (chopped)\n1 tbsp oil\nSalt to taste",
+    "instructions": "1. Dry roast semolina for 3 mins. Cool.\n2. Mix semolina, yogurt, grated carrot, cashews, and salt. Rest for 10 mins.\n3. Heat oil, add mustard seeds, curry leaves, green chili. Pour over batter.\n4. Add fruit salt and mix gently.\n5. Pour into greased idli molds.\n6. Steam for 12-15 mins.\n7. Serve hot with coconut chutney."
+},
+
+"Chole Masala": {
+    "ingredients": "1 cup chickpeas (soaked overnight)\n2 onions (pureed)\n2 tomatoes (pureed)\n1 tbsp ginger-garlic paste\n1 tsp chole masala\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp red chili powder\n2 tbsp oil\nSalt to taste\nFresh coriander",
+    "instructions": "1. Pressure cook soaked chickpeas until soft.\n2. Heat oil, add onion puree and cook until golden.\n3. Add ginger-garlic paste and cook for 1 min.\n4. Add tomato puree and spices. Cook until oil separates.\n5. Add cooked chickpeas and salt. Simmer 10 mins.\n6. Garnish with coriander and serve with rice or bhature."
+},
+
+"Sabudana Khichdi": {
+    "ingredients": "1 cup sabudana (sago, soaked overnight)\n1/2 cup roasted peanuts (crushed)\n1 potato (diced)\n1 green chili (chopped)\n1 tsp cumin seeds\nFew curry leaves\n1 tbsp lemon juice\nSalt to taste\n1 tbsp oil\nFresh coriander",
+    "instructions": "1. Drain soaked sabudana. Add salt and crushed peanuts. Mix.\n2. Heat oil, add cumin seeds, curry leaves, and green chili.\n3. Add diced potato and cook until golden.\n4. Add sabudana mixture and cook on low flame for 5-7 mins.\n5. Stir gently until sabudana turns translucent.\n6. Add lemon juice and coriander.\n7. Serve hot."
+},
+
+"Vegetable Rava Upma": {
+    "ingredients": "1 cup semolina\n1/2 cup mixed vegetables (beans, carrot, peas)\n1 onion (chopped)\n1 tsp mustard seeds\n1 tsp urad dal\n2 green chilies\nFew curry leaves\n1 tbsp ghee\nSalt to taste\n2 tbsp cashews",
+    "instructions": "1. Dry roast semolina until fragrant. Set aside.\n2. Heat ghee, add mustard seeds, urad dal, cashews, curry leaves.\n3. Add onions, green chilies, and vegetables. Sauté for 3 mins.\n4. Add 2.5 cups water and salt. Bring to boil.\n5. Add roasted semolina, stirring continuously.\n6. Cover and cook on low flame for 5 mins.\n7. Serve hot with chutney."
+},
+
+"Egg Curry": {
+    "ingredients": "4 boiled eggs\n2 onions (chopped)\n2 tomatoes (pureed)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp red chili powder\n1/2 tsp garam masala\n2 tbsp oil\nSalt to taste\nFresh coriander",
+    "instructions": "1. Score boiled eggs lightly with a knife.\n2. Heat oil, add onions and sauté until golden.\n3. Add ginger-garlic paste and cook for 1 min.\n4. Add tomato puree and spices. Cook until oil separates.\n5. Add 1/2 cup water and simmer.\n6. Add boiled eggs and cook for 5 mins.\n7. Garnish with coriander and serve with rice or roti."
+},
+
+"Aloo Gobi": {
+    "ingredients": "2 potatoes (cubed)\n1 cauliflower (cut into florets)\n1 onion (chopped)\n2 tomatoes (chopped)\n1 tsp ginger-garlic paste\n1/2 tsp turmeric\n1 tsp coriander powder\n1/2 tsp garam masala\n1 tsp cumin seeds\n2 tbsp oil\nSalt to taste\nFresh coriander",
+    "instructions": "1. Heat oil, add cumin seeds.\n2. Add onions and sauté until golden.\n3. Add ginger-garlic paste and cook for 1 min.\n4. Add tomatoes, turmeric, coriander powder. Cook until soft.\n5. Add potatoes and cauliflower. Mix well.\n6. Add 1/4 cup water, cover and cook until tender.\n7. Add garam masala and coriander. Serve hot with roti."
+},
+
+"Rajma Rice": {
+    "ingredients": "1 cup rajma (kidney beans, soaked overnight)\n1 cup basmati rice\n2 onions (chopped)\n2 tomatoes (pureed)\n1 tsp ginger-garlic paste\n1 tsp cumin seeds\n1/2 tsp turmeric\n1 tsp coriander powder\n2 tbsp oil\nSalt to taste\nFresh coriander",
+    "instructions": "1. Pressure cook rajma until soft.\n2. Cook rice separately.\n3. Heat oil, add cumin seeds and onions. Sauté until golden.\n4. Add ginger-garlic paste and tomatoes. Cook until oil separates.\n5. Add cooked rajma and salt. Simmer 10 mins.\n6. Serve rajma curry over steamed rice. Garnish with coriander."
+},
+
+"Bhel Puri": {
+    "ingredients": "2 cups puffed rice\n1/2 cup boiled chickpeas\n1 onion (finely chopped)\n1 tomato (finely chopped)\n1/2 cup sev\n2 tbsp tamarind chutney\n2 tbsp green chutney\n1/2 tsp chaat masala\n1/4 tsp black salt\nLemon juice\nFresh coriander",
+    "instructions": "1. Mix puffed rice, chickpeas, onion, and tomato in a bowl.\n2. Add tamarind chutney and green chutney.\n3. Add chaat masala and black salt.\n4. Toss well.\n5. Top with sev and coriander.\n6. Serve immediately."
+},
+
+"Kadai Paneer": {
+    "ingredients": "200g paneer (cubed)\n2 capsicums (cubed)\n2 onions (cubed)\n2 tomatoes (pureed)\n1 tsp ginger-garlic paste\n1 tsp coriander powder\n1/2 tsp red chili powder\n1/2 tsp garam masala\n1 tsp cumin seeds\n2 tbsp oil\nSalt to taste",
+    "instructions": "1. Heat oil, add cumin seeds.\n2. Add onions and capsicums. Sauté for 2 mins.\n3. Add ginger-garlic paste and cook.\n4. Add tomato puree and spices. Cook until oil separates.\n5. Add paneer cubes and salt. Cook for 3-4 mins.\n6. Add garam masala. Serve hot with roti."
+},
+
+"Methi Chawal": {
+    "ingredients": "1 cup cooked rice\n2 cups fresh methi leaves (chopped)\n1 onion (finely chopped)\n2 green chilies (chopped)\n1 tsp cumin seeds\n1/4 tsp turmeric\n1 tbsp ghee\nSalt to taste",
+    "instructions": "1. Heat ghee, add cumin seeds.\n2. Add onions and green chilies. Sauté until golden.\n3. Add methi leaves and turmeric. Cook until wilted.\n4. Add cooked rice and salt. Mix gently.\n5. Cook for 2-3 mins on low flame.\n6. Serve hot with yogurt."
+},
+
+"Barley Upma": {
+    "ingredients": "1 cup barley (pearl barley, soaked 2 hours)\n1/2 cup mixed vegetables\n1 onion (chopped)\n1 tsp mustard seeds\n2 green chilies\nFew curry leaves\n1 tbsp oil\nSalt to taste\nLemon juice",
+    "instructions": "1. Drain soaked barley.\n2. Heat oil, add mustard seeds, curry leaves, and green chilies.\n3. Add onions and vegetables. Sauté for 3 mins.\n4. Add barley and 2.5 cups water. Salt.\n5. Cover and cook on low flame for 20-25 mins until soft.\n6. Add lemon juice. Serve warm."
+},
+
+"Bajra Roti with Sprouts Sabzi": {
+    "ingredients": "For roti: 1 cup bajra flour, water, salt\nFor sabzi: 1 cup sprouted moong, 1 onion, 1 tomato, 1/2 tsp cumin, 1/4 tsp turmeric, 1 tsp coriander powder, 1 tbsp oil, salt",
+    "instructions": "1. Mix bajra flour with water and salt. Knead soft dough.\n2. Roll into rotis and cook on tawa with ghee.\n3. For sabzi: heat oil, add cumin, onions, tomatoes.\n4. Add turmeric, coriander powder, and sprouts.\n5. Add 1/4 cup water, cover and cook for 10 mins.\n6. Serve bajra roti with sprouts sabzi."
+},
+
+"Moong Dal Pancakes": {
+    "ingredients": "1 cup moong dal (soaked 4 hours)\n1/4 cup oats\n1 green chili\n1/2 inch ginger\n1/4 tsp turmeric\nSalt to taste\nOil for cooking",
+    "instructions": "1. Grind soaked moong dal, oats, green chili, and ginger to batter.\n2. Add turmeric and salt. Mix.\n3. Heat non-stick pan, pour batter and spread.\n4. Drizzle oil and cook until golden on both sides.\n5. Serve with mint chutney."
+},
+
+"Brown Rice Khichdi": {
+    "ingredients": "1/2 cup brown rice\n1/2 cup moong dal\n1 tsp ghee\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1/2 cup mixed vegetables\nSalt to taste\n3 cups water",
+    "instructions": "1. Wash brown rice and moong dal together.\n2. Heat ghee, add cumin seeds.\n3. Add vegetables and sauté for 2 mins.\n4. Add rice, dal, turmeric, salt, and water.\n5. Pressure cook for 4-5 whistles.\n6. Mash lightly and serve hot."
+},
+
+"Quinoa Biryani": {
+    "ingredients": "1 cup quinoa\n1 cup mixed vegetables\n1 onion (sliced)\n1/2 cup yogurt\n1 tsp biryani masala\n1 tbsp ghee\nWhole spices\nFresh mint and coriander\nSalt to taste",
+    "instructions": "1. Rinse quinoa thoroughly.\n2. Heat ghee, add whole spices and onions. Fry until golden.\n3. Add yogurt, biryani masala, and vegetables. Cook 3 mins.\n4. Add quinoa and 2 cups water.\n5. Cover and cook on low flame for 15 mins.\n6. Garnish with mint and coriander. Serve hot."
+},
+
+"Grilled Fish with Vegetables": {
+    "ingredients": "200g fish fillet\n1 cup mixed vegetables (broccoli, zucchini, carrot)\n1 tsp lemon juice\n1/2 tsp garlic powder\n1 tbsp olive oil\nSalt and pepper to taste\nFresh herbs",
+    "instructions": "1. Season fish with garlic powder, lemon juice, oil, salt, pepper.\n2. Grill fish for 4-5 mins each side.\n3. Steam or sauté vegetables until tender.\n4. Serve grilled fish with vegetables.\n5. Garnish with fresh herbs."
+},
+
+"Steamed Dal with Brown Rice": {
+    "ingredients": "1/2 cup toor dal\n1/2 cup brown rice\n1 tsp ghee\n1/2 tsp cumin seeds\n1/4 tsp turmeric\n1 tomato (chopped)\nSalt to taste\nFresh coriander",
+    "instructions": "1. Wash dal and rice separately.\n2. Cook dal with turmeric until soft. Mash.\n3. Cook brown rice until fluffy.\n4. Heat ghee, add cumin seeds and tomatoes.\n5. Add cooked dal and salt. Simmer.\n6. Serve dal over brown rice with coriander."
+},
+
+"Stuffed Bell Peppers": {
+    "ingredients": "4 bell peppers (mixed colors)\n1 cup cooked quinoa\n1/2 cup black beans\n1/2 cup corn\n1/2 tsp cumin\n1/2 tsp chili powder\n1 tbsp olive oil\nSalt to taste\nCheese for topping (optional)",
+    "instructions": "1. Cut bell peppers in half, remove seeds.\n2. Mix quinoa, beans, corn, cumin, chili powder, oil, salt.\n3. Stuff peppers with mixture.\n4. Top with cheese if using.\n5. Bake at 190°C for 20-25 mins.\n6. Serve hot."
+},
+
+"Stir-Fried Tofu with Broccoli": {
+    "ingredients": "200g firm tofu (cubed)\n2 cups broccoli florets\n2 cloves garlic (minced)\n1 tbsp soy sauce\n1 tsp sesame oil\n1 tbsp oil\nBlack pepper to taste",
+    "instructions": "1. Press tofu and cut into cubes.\n2. Heat oil, fry tofu until golden. Set aside.\n3. In same pan, add sesame oil and garlic.\n4. Add broccoli and stir fry for 3-4 mins.\n5. Add soy sauce and tofu. Toss well.\n6. Serve hot with brown rice."
 }
 
 }
