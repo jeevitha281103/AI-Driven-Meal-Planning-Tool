@@ -1,7 +1,13 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+
 import secrets
 import numpy as np
 import pandas as pd
+
+import tensorflow as tf
+tf.get_logger().setLevel('ERROR')
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from flask import Flask, request, session, redirect, render_template, jsonify, url_for
@@ -260,13 +266,19 @@ init_db()
 def check_auth():
     return 'user_email' in session
 
-# load the model
-Model_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
-try:
-    model = load_model(Model_path, compile=False)
-except Exception as e:
-    print(f"Warning: Could not load model: {e}")
-    model = None
+# load the model lazily to save memory
+_model = None
+
+def get_model():
+    global _model
+    if _model is None:
+        Model_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
+        try:
+            _model = load_model(Model_path, compile=False)
+        except Exception as e:
+            print(f"Warning: Could not load model: {e}")
+            _model = None
+    return _model
 
 # BMI functions
 def calculate_bmi(weight_kg, height_cm):
@@ -598,6 +610,7 @@ def uploads():
     if f.filename == '':
         return jsonify({"error": "No file selected"}), 400
         
+    model = get_model()
     if model is None:
         return jsonify({"error": "Model not loaded. Please ensure Model/model_v1_inceptionV3.h5 exists."}), 500
 
