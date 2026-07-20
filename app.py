@@ -340,63 +340,50 @@ def get_bmi_category(bmi):
 
 # Build dataset for diet plan suggestions
 def build_meal_data(all_meals=False, diabetes_only=False):
+    items = [
+        # Breakfast - Non-diabetic (10)
+        'Vegetable Upma', 'Boiled Eggs with Toast', 'Fruit Smoothie', 'Vegetable Dosa', 'Idli with Sambar',
+        'Masala Dosa', 'Oats with Milk', 'Poha', 'Coconut Chutney with Rice', 'Ragi Porridge',
+        # Snack - Non-diabetic (10)
+        'Carrot Sticks', 'Cucumber Slices', 'Fruit Bowl', 'Apple', 'Banana Smoothie',
+        'Mixed Nuts', 'Peanut Butter Shake', 'Roasted Chickpeas', 'Green Tea with Almonds', 'Buttermilk',
+        # Lunch - Non-diabetic (10)
+        'Mixed Vegetable Curry', 'Quinoa Salad', 'Tofu Stir Fry', 'Grilled Chicken with Rice', 'Fish Curry with Rice',
+        'Paneer Paratha', 'Vegetable Biryani', 'Dal with Brown Rice', 'Lentil Soup', 'Chicken Biryani',
+        # Dinner - Non-diabetic (10)
+        'Grilled Fish', 'Veg Soup with Brown Bread', 'Moong Dal Khichdi', 'Vegetable Pulao', 'Paneer Bhurji with Roti',
+        'Stuffed Paratha', 'Egg Fried Rice', 'Vegetable Stew', 'Clear Vegetable Soup', 'Steamed Vegetables with Tofu',
+        # Breakfast - Diabetic (10)
+        'Tofu Scramble', 'Quinoa Porridge', 'Moong Dal Chilla', 'Vegetable Dosa with Chutney',
+        'Ragi Porridge', 'Boiled Eggs with Spinach', 'Vegetable Poha', 'Avocado Toast',
+        'Oats with Almond Milk', 'Low-fat Greek Yogurt with Berries',
+        # Snack - Diabetic (10)
+        'Roasted Chickpeas', 'Green Tea with Almonds', 'Cucumber Slices', 'Celery Sticks',
+        'Apple with Peanut Butter', 'Boiled Chana', 'Mixed Nuts', 'Buttermilk',
+        'Carrot and Celery Sticks', 'Mixed Nuts (unsalted)',
+        # Lunch - Diabetic (10)
+        'Lentil Soup', 'Quinoa Salad', 'Zucchini Stir Fry', 'Chickpea Salad',
+        'Vegetable Stew', 'Tofu Stir Fry', 'Dal with Brown Rice', 'Grilled Chicken with Broccoli',
+        'Grilled Chicken with Quinoa', 'Lentil Soup with Spinach',
+        # Dinner - Diabetic (10)
+        'Moong Dal Khichdi', 'Spinach Soup', 'Clear Vegetable Soup', 'Oats Khichdi',
+        'Steamed Vegetables with Tofu', 'Tofu and Vegetable Stir Fry', 'Masoor Dal with Quinoa',
+        'Vegetable Pulao (with brown rice)', 'Grilled Salmon with Steamed Veggies', 'Spinach and Lentil Soup',
+        # New Regular meals (10)
+        'Pesarattu', 'Moong Dal Halwa', 'Rava Idli', 'Chole Masala', 'Sabudana Khichdi',
+        'Vegetable Rava Upma', 'Egg Curry', 'Aloo Gobi', 'Rajma Rice', 'Bhel Puri',
+        # New Diabetic meals (10)
+        'Barley Upma', 'Bajra Roti with Sprouts Sabzi', 'Moong Dal Pancakes', 'Brown Rice Khichdi', 'Quinoa Biryani',
+        'Grilled Fish with Vegetables', 'Steamed Dal with Brown Rice', 'Stuffed Bell Peppers', 'Stir-Fried Tofu with Broccoli', 'Kadai Paneer',
+    ]
+    n = len(items)
     data = {
-        'MealTime': ['Breakfast']*30 + ['Snack']*30 + ['Lunch']*30 + ['Dinner']*30,
-        'BMI_Category': (['Underweight']*10 + ['Normal']*10 + ['Overweight']*10) * 4,
-        'Diabetes': ['No']*40 + ['Yes']*80,
-        'Calories': [random.randint(150, 500) for _ in range(120)],
-        'Weight_g': [random.randint(80, 500) for _ in range(120)],
-        'Item': [
-            # Breakfast - Non-diabetic (10)
-            'Vegetable Upma', 'Boiled Eggs with Toast', 'Fruit Smoothie', 'Vegetable Dosa', 'Idli with Sambar',
-            'Masala Dosa', 'Oats with Milk', 'Poha', 'Coconut Chutney with Rice', 'Ragi Porridge',
-            # Snack - Non-diabetic (10)
-            'Carrot Sticks', 'Cucumber Slices', 'Fruit Bowl', 'Apple', 'Banana Smoothie',
-            'Mixed Nuts', 'Peanut Butter Shake', 'Roasted Chickpeas', 'Green Tea with Almonds', 'Buttermilk',
-            # Lunch - Non-diabetic (10)
-            'Mixed Vegetable Curry', 'Quinoa Salad', 'Tofu Stir Fry', 'Grilled Chicken with Rice', 'Fish Curry with Rice',
-            'Paneer Paratha', 'Vegetable Biryani', 'Dal with Brown Rice', 'Lentil Soup', 'Chicken Biryani',
-            # Dinner - Non-diabetic (10)
-            'Grilled Fish', 'Veg Soup with Brown Bread', 'Moong Dal Khichdi', 'Vegetable Pulao', 'Paneer Bhurji with Roti',
-            'Stuffed Paratha', 'Egg Fried Rice', 'Vegetable Stew', 'Clear Vegetable Soup', 'Steamed Vegetables with Tofu',
-            # Breakfast - Diabetic (10)
-            'Tofu Scramble', 'Quinoa Porridge', 'Moong Dal Chilla', 'Vegetable Dosa with Chutney',
-            'Ragi Porridge', 'Boiled Eggs with Spinach', 'Vegetable Poha', 'Avocado Toast',
-            'Oats with Almond Milk', 'Low-fat Greek Yogurt with Berries',
-            # Snack - Diabetic (10)
-            'Roasted Chickpeas', 'Green Tea with Almonds', 'Cucumber Slices', 'Celery Sticks',
-            'Apple with Peanut Butter', 'Boiled Chana', 'Mixed Nuts', 'Buttermilk',
-            'Carrot and Celery Sticks', 'Mixed Nuts (unsalted)',
-            # Lunch - Diabetic (10)
-            'Lentil Soup', 'Quinoa Salad', 'Zucchini Stir Fry', 'Chickpea Salad',
-            'Vegetable Stew', 'Tofu Stir Fry', 'Dal with Brown Rice', 'Grilled Chicken with Broccoli',
-            'Grilled Chicken with Quinoa', 'Lentil Soup with Spinach',
-            # Dinner - Diabetic (10)
-            'Moong Dal Khichdi', 'Spinach Soup', 'Clear Vegetable Soup', 'Oats Khichdi',
-            'Steamed Vegetables with Tofu', 'Tofu and Vegetable Stir Fry', 'Masoor Dal with Quinoa',
-            'Vegetable Pulao (with brown rice)', 'Grilled Salmon with Steamed Veggies', 'Spinach and Lentil Soup',
-            # New Regular meals (10)
-            'Pesarattu', 'Moong Dal Halwa', 'Rava Idli', 'Chole Masala', 'Sabudana Khichdi',
-            'Vegetable Rava Upma', 'Egg Curry', 'Aloo Gobi', 'Rajma Rice', 'Bhel Puri',
-            # New Diabetic meals (10)
-            'Barley Upma', 'Bajra Roti with Sprouts Sabzi', 'Moong Dal Pancakes', 'Brown Rice Khichdi', 'Quinoa Biryani',
-            'Grilled Fish with Vegetables', 'Steamed Dal with Brown Rice', 'Stuffed Bell Peppers', 'Stir-Fried Tofu with Broccoli', 'Kadai Paneer',
-            # Extra variety items (30)
-            'Masala Oats', 'Scrambled Eggs with Spinach', 'Avocado Toast with Whole Grain Bread',
-            'Apple with Almond Butter', 'Fresh Fruit Salad', 'Cucumber Slices with Lemon',
-            'Roasted Seaweed Snacks', 'Chickpea Salad', 'Grilled Fish with Salad',
-            'Vegetable Soup with Whole Grain Bread', 'Stuffed Bell Peppers with Quinoa',
-            'Masala Veg Soup', 'Poha with Vegetables', 'Banana Pancakes', 'Nut Butter Sandwich',
-            'Multigrain Dosa', 'Sprouts Chaat', 'Stuffed Capsicum', 'Paneer Tikka',
-            'Grilled Chicken with Broccoli', 'Tofu and Kale Stir Fry', 'Dal with Brown Rice',
-            'Vegetable Salad with Olive Oil', 'Grilled Fish with Salad', 'Stuffed Paratha',
-            'Egg Fried Rice', 'Steamed Vegetables with Tofu', 'Clear Vegetable Soup',
-            'Paneer Bhurji with Roti', 'Vegetable Pulao',
-            'Fruit Smoothie with Yogurt', 'Masala Dosa with Chutney', 'Idli with Coconut Chutney',
-            'Vegetable Biryani with Raita', 'Chicken Curry with Rice', 'Fish Tikka',
-            'Quinoa Pulao with Vegetables', 'Lemon Rice with Peanuts', 'Palak Paneer with Roti',
-            'Mushroom Curry with Brown Rice'
-        ]
+        'MealTime': ['Breakfast']*(n//4) + ['Snack']*(n//4) + ['Lunch']*(n//4) + ['Dinner']*(n - 3*(n//4)),
+        'BMI_Category': (['Underweight']*(n//12) + ['Normal']*(n//12) + ['Overweight']*(n - 2*(n//12))) * 4,
+        'Diabetes': ['No']*(n//3) + ['Yes']*(n - n//3),
+        'Calories': [random.randint(150, 500) for _ in range(n)],
+        'Weight_g': [random.randint(80, 500) for _ in range(n)],
+        'Item': items
     }
     df = pd.DataFrame(data)
     if all_meals:
