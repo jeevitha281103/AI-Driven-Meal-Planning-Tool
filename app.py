@@ -377,10 +377,11 @@ def build_meal_data(all_meals=False, diabetes_only=False):
         'Grilled Fish with Vegetables', 'Steamed Dal with Brown Rice', 'Stuffed Bell Peppers', 'Stir-Fried Tofu with Broccoli', 'Kadai Paneer',
     ]
     n = len(items)
+    per_cat = n // 3
     data = {
-        'MealTime': ['Breakfast']*(n//4) + ['Snack']*(n//4) + ['Lunch']*(n//4) + ['Dinner']*(n - 3*(n//4)),
-        'BMI_Category': (['Underweight']*(n//12) + ['Normal']*(n//12) + ['Overweight']*(n - 2*(n//12))) * 4,
-        'Diabetes': ['No']*(n//3) + ['Yes']*(n - n//3),
+        'MealTime': (['Breakfast'] + ['Snack'] + ['Lunch'] + ['Dinner']) * (n // 4),
+        'BMI_Category': ['Underweight'] * per_cat + ['Normal'] * per_cat + ['Overweight'] * (n - 2 * per_cat),
+        'Diabetes': ['No'] * (n // 2) + ['Yes'] * (n - n // 2),
         'Calories': [random.randint(150, 500) for _ in range(n)],
         'Weight_g': [random.randint(80, 500) for _ in range(n)],
         'Item': items
