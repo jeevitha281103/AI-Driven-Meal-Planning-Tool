@@ -171,6 +171,6 @@ This project is for educational purposes. Model weights are derived from the [In
 
 ## Contact
 
-**Jeevitha S** — [LinkedIn](https://www.linkedin.com/in/jeevitha-s-281103/) | jeevitha281103@gmail.com
+**Jeevitha S** — [LinkedIn](https://www.linkedin.com/in/jeevitha-s-281103/) | jeevitharaja2811@gmail.com
 
 If you find a bug or have a feature request, please [open an issue](https://github.com/jeevitha281103/AI-Driven-Meal-Planning-Tool/issues).
