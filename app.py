@@ -8,14 +8,7 @@ import time
 import logging
 import numpy as np
 import pandas as pd
-
-import tensorflow as tf
-tf.get_logger().setLevel('ERROR')
-tf.config.threading.set_intra_op_parallelism_threads(1)
-tf.config.threading.set_inter_op_parallelism_threads(1)
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
-from flask import Flask, request, session, redirect, render_template, jsonify, url_for, send_from_directory
+from flask import Flask, request, session, redirect, render_template, jsonify, url_for
 from werkzeug.utils import secure_filename
 import sqlite3
 import random
@@ -26,9 +19,6 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
-app.config['SESSION_COOKIE_SECURE'] = True
-app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -299,13 +289,12 @@ def get_model():
     h5_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.h5")
     tflite_path = os.path.join(BASE_DIR, "Model", "model_v1_inceptionV3.tflite")
 
-    # Prefer TFLite if available (smaller, works without LFS)
     if os.path.exists(tflite_path) and os.path.getsize(tflite_path) > 1000:
         file_size = os.path.getsize(tflite_path) / 1024 / 1024
         logger.info(f"Loading TFLite model ({file_size:.1f} MB)...")
         try:
-            import tensorflow.lite as tflite
-            interpreter = tflite.Interpreter(model_path=tflite_path)
+            import tensorflow as tf
+            interpreter = tf.lite.Interpreter(model_path=tflite_path)
             interpreter.allocate_tensors()
             _model = interpreter
             _model_type = "tflite"
@@ -314,7 +303,6 @@ def get_model():
         except Exception as e:
             logger.error(f"TFLite load failed: {e}")
 
-    # Fallback to H5
     if os.path.exists(h5_path):
         file_size = os.path.getsize(h5_path)
         if file_size < 1000:
@@ -322,6 +310,9 @@ def get_model():
             return None
         logger.info(f"Loading H5 model ({file_size / 1024 / 1024:.1f} MB)...")
         try:
+            import tensorflow as tf
+            tf.get_logger().setLevel('ERROR')
+            from tensorflow.keras.models import load_model
             start = time.time()
             _model = load_model(h5_path, compile=False)
             _model_type = "h5"
@@ -560,11 +551,12 @@ FOOD_DATA = {
 }
 
 def model_predict(img_path, model):
+    from tensorflow.keras.preprocessing import image as keras_image
     logger.info(f"Predicting: {img_path}")
     start = time.time()
 
-    img = image.load_img(img_path, target_size=(299, 299))
-    x = image.img_to_array(img)
+    img = keras_image.load_img(img_path, target_size=(299, 299))
+    x = keras_image.img_to_array(img)
     x = np.expand_dims(x, axis=0) / 255.0
 
     if _model_type == "tflite":
