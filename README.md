@@ -1,5 +1,3 @@
-<div align="center">
-
 # NutriFit
 
 ### AI-Driven Indian Food Classification & Meal Planning Tool
@@ -9,12 +7,9 @@
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.14-FF6F00?logo=tensorflow&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
 ![Render](https://img.shields.io/badge/Deployed-Render-46E3B7?logo=render&logoColor=white)
-
 [![Live Demo](https://img.shields.io/badge/Try_It_Live-blue)](https://ai-driven-meal-planning-tool.onrender.com)
 
 **Recognize Indian dishes from photos, get detailed nutritional breakdown, and generate personalized 7-day meal plans — powered by deep learning.**
-
-</div>
 
 ---
 
