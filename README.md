@@ -140,13 +140,40 @@ Open **http://localhost:5000** in your browser.
 
 ---
 
-## Roadmap
+## Future Improvements
 
+### ML & Data
 - [ ] Expand model to 40+ Tamil Nadu food classes
-- [ ] Calorie tracking dashboard
-- [ ] Multi-language support (Hindi, Tamil, Telugu)
-- [ ] Grocery list generation from meal plans
-- [ ] Dark mode toggle
+- [ ] Train with region-specific cuisine (South Indian, North Indian, Bengali, etc.)
+- [ ] Add food portion size estimation from images
+- [ ] Implement real-time camera prediction (video stream)
+- [ ] Add model confidence threshold — reject low-confidence predictions
+
+### User Experience
+- [ ] Multi-language support (Hindi, Tamil, Telugu, Kannada)
+- [ ] Dark mode toggle with system preference detection
+- [ ] Progressive Web App (PWA) — installable on mobile
+- [ ] Push notifications for meal reminders
+
+### Health & Nutrition
+- [ ] Calorie tracking dashboard with daily/weekly history
+- [ ] BMI trend graph over time
+- [ ] Allergy filter — exclude recipes with allergens
+- [ ] Integrate with Google Fit / Apple Health for activity data
+- [ ] AI-powered meal suggestions based on user health goals
+
+### Backend & Infrastructure
+- [ ] Migrate SQLite to PostgreSQL for production scalability
+- [ ] Add Redis caching for faster page loads
+- [ ] REST API for mobile app integration
+- [ ] Docker containerization for local development
+- [ ] CI/CD pipeline with GitHub Actions
+
+### Social & Community
+- [ ] Share meal plans on social media
+- [ ] User-generated recipe submissions with ratings
+- [ ] Community leaderboard for healthy eating streaks
+- [ ] Grocery list export (PDF / email)
 
 ---
 
