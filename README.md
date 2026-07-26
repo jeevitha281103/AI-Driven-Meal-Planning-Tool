@@ -18,18 +18,6 @@
 
 ---
 
-## Preview
-
-<div align="center">
-
-![Prediction Page](https://user-images.githubusercontent.com/72247049/121991992-5ba5b980-cdbe-11eb-971c-182bb1a0913b.png)
-
-![Meal Plan](https://user-images.githubusercontent.com/72247049/121992054-7aa44b80-cdbe-11eb-8975-f82da1c28f16.png)
-
-</div>
-
----
-
 ## Features
 
 - **Food Image Recognition** — Upload or capture a photo and identify Indian dishes instantly
