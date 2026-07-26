@@ -13,6 +13,18 @@
 
 ---
 
+## Preview
+
+Try the live app: **[NutriFit Live Demo](https://ai-driven-meal-planning-tool.onrender.com)**
+
+Features you can explore:
+- Upload an image or use your webcam to identify Indian food
+- Get instant nutritional breakdown (calories, protein, carbs, fat, fiber)
+- Generate a personalized 7-day meal plan
+- Browse 120+ Indian recipes with diet filters
+
+---
+
 ## Features
 
 - **Food Image Recognition** — Upload or capture a photo and identify Indian dishes instantly
