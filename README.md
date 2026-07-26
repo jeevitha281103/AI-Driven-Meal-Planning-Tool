@@ -197,6 +197,10 @@ This project is for educational purposes. Model weights are derived from the [In
 
 ## Contact
 
-**Jeevitha** — [LinkedIn](https://www.linkedin.com/in/r-s-jeevitha-raja-7692642b3?utm_source=share_via&utm_content=profile&utm_medium=member_android) — jeevitharaja2811@gmail.com
+**Jeevitha**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/r-s-jeevitha-raja-7692642b3?utm_source=share_via&utm_content=profile&utm_medium=member_android)
+[![Email](https://img.shields.io/badge/Email-Send_D33616?logo=gmail&logoColor=white)](mailto:jeevitharaja2811@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?logo=github&logoColor=white)](https://github.com/jeevitha281103)
 
 If you find a bug or have a feature request, please [open an issue](https://github.com/jeevitha281103/AI-Driven-Meal-Planning-Tool/issues).
